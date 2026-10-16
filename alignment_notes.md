@@ -96,4 +96,3 @@ Review the assisted journeys against the specification to confirm that no new be
 
 ### Notes
 The journey correctly keeps communication under human control.
-
