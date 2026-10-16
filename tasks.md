@@ -44,7 +44,7 @@
 
 - [ ] T018 Display policy evidence and citations : Present approved guidance and source information.
 
-- [ ] T019 Display recommendations : Present recommendation details and confidence information.
+- [ ] T019 Display recommendations.
 
 - [ ] T020 Create human approval interface : Allow supervisors to approve, reject, or request changes.
 
