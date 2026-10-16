@@ -130,3 +130,15 @@ List :
 - Reference: Banking_Complaint_Resolution_Domain_Guide Section 5 and Banking_Complaint_Resolution_Assistant_Project_Brief.
 - Status: Partially Answered
 - Decision Date: 2026-10-15
+
+## CL-011: Required Programming Languages and Frameworks
+
+- Category: Technical Architecture
+- Question: Are specific programming languages, frameworks, or technology stacks required for the implementation of the Banking Complaint Resolution Assistant?
+- Why it matters: Technology choices affect architecture decisions, project planning, task breakdown, testing strategy, deployment approach, and team collaboration.
+- Source/Owner: Coach / Technical Lead
+- Decision: The project roadmap references technologies and components such as complaint APIs, RAG services, MCP tools, LangGraph workflows, and a React analyst portal. However, the supplied materials do not explicitly mandate a specific backend language, framework, database technology, or implementation stack.
+- Reference: Banking_Complaint_Resolution_Assistant_Project_Brief.docx
+- Impact: Technology selection remains a project decision and may require confirmation from the coach before implementation begins.
+- Status: Open
+- Decision Date: TBD
