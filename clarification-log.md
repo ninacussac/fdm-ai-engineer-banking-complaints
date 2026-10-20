@@ -142,3 +142,41 @@ List :
 - Impact: Technology selection remains a project decision and may require confirmation from the coach before implementation begins.
 - Status: Open
 - Decision Date: TBD
+
+## CL-013: Persona Scope and Timeline
+
+- Category: Personas
+- Question: When creating personas.md, should the personas represent the users and responsibilities before the AI assistant was introduced, or should they represent the users operating with support from the Banking Complaint Resolution Assistant?
+- Why it matters: The answer affects user journeys, responsibilities, decision authority, workflow design, and role definitions. Personas may differ significantly depending on whether they describe the current-state process or the future-state AI-assisted workflow.
+- Source/Owner: Coach / Product Owner
+- Decision:   Personas should represent the future-state workflow with the Banking Complaint Resolution Assistant in place.
+  Two personas are required:
+  1. Complaint Analyst
+  2. Supervisor/Reviewer
+
+  For each persona, the following areas should be documented:
+  - Responsibilities
+  - Primary Goals
+  - Key Tasks
+  - Information Needs
+  - Permissions
+  - Constraints
+  - Success Measures
+- Reference: Banking_Complaint_Resolution_Assistant_Project_Brief.docx – Exercise_1_3_2_Personas_Journeys
+- Impact: Future persona documentation and user journeys should be based on the AI-assisted investigation process rather than the pre-assistant workflow.
+- Status: Answered
+- Decision Date: 2026-10-16
+
+
+## CL-014: Audit Trail Ownership
+
+- Category: Audit and Governance
+- Question: Is the audit trail maintained entirely by the Banking Complaint Resolution Assistant, or do the Complaint Analyst and Supervisor/Reviewer also have responsibilities related to creating, validating, or contributing to audit records?
+- Why it matters: The ownership of audit activities affects workflow responsibilities, accountability, traceability requirements, and system design. It must be clear whether audit records are generated automatically, manually, or through a combination of both.
+- Source/Owner: Coach / Product Owner
+- Decision:
+The supplied materials indicate that the solution should maintain an audit trail and record evidence, recommendations, approvals, rejections, reviewer identity, timestamps, decisions, and rationale. However, the materials do not explicitly define whether audit-trail responsibilities belong solely to the assistant or are shared with the Complaint Analyst and Supervisor/Reviewer.
+- Reference: Banking_Complaint_Resolution_Domain_Guide.docx 
+- Impact: Clarification is required before defining audit ownership, audit workflows, and user responsibilities.
+- Status: Open
+- Decision Date: TBD

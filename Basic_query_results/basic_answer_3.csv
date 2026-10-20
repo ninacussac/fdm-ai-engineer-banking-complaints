@@ -1,0 +1,5 @@
+"Status_type","Number_of_complaint"
+CLOSED,1
+IN_PROGRESS,2
+OPEN,5
+UNDER_REVIEW,2
