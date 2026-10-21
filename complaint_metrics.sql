@@ -10,7 +10,7 @@ Select COUNT(complaint_id) as number_of_complaint, COUNT(distinct customer_id) a
 group by category;
 
 Select COUNT(complaint_id) as number_of_complaint, COUNT(distinct customer_id) as number_unique_customer, strftime('%m', received_at) AS month from complaint
-group by month;
+group by month; 
 
 -- Resolution measures queries :
 

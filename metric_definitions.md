@@ -29,7 +29,7 @@ Mean elapsed calendar days from complaint receipt (complaint.received_at) to its
 - Unresolved cases: Open, in-progress, and under-review complaints are excluded from both numerator and denominator. They do not contribute zero-day durations. Categories with no qualifying closed complaints do not appear in the result.
 
 ## Data-quality limitations
-
+ 
 Synthetic, small dataset: The provided seed data contains ten complaints; the resulting metrics are suitable for query validation, not representative performance benchmarks.
 
 
