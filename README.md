@@ -116,7 +116,7 @@ from src.data.customer_repository import CustomerRepository
 db = DatabaseManager()
 customer_repo = CustomerRepository(db)
 
-customer = customer_repo.get_by_id("C0079")
+customer = customer_repo.get_by_id("CUS001")
 
 if customer:
     print(customer)
@@ -129,7 +129,7 @@ from src.data.account_repository import AccountRepository
 
 account_repo = AccountRepository(db)
 
-accounts = account_repo.get_for_customer("C0079")
+accounts = account_repo.get_for_customer("CUS001")
 
 for account in accounts:
     print(account)
@@ -142,7 +142,7 @@ from src.data.complaint_repository import ComplaintRepository
 
 complaint_repo = ComplaintRepository(db)
 
-complaint = complaint_repo.get_by_id("CP00026")
+complaint = complaint_repo.get_by_id("CMP001")
 
 if complaint:
     print(complaint)
@@ -151,7 +151,7 @@ if complaint:
 #### Retrieve customer complaints
 
 ```python
-complaints = complaint_repo.get_for_customer("C0079")
+complaints = complaint_repo.get_for_customer("CUS001")
 
 for complaint in complaints:
     print(complaint)
@@ -161,12 +161,14 @@ for complaint in complaints:
 
 ```python
 complaint_repo.create(
-    customer_id="C0079",
-    category="Fraud Claim",
+    customer_id="CUS001",
+    category="Fee Dispute",
     channel="Email",
     status="OPEN",
-    date_opened="2026-10-27",
-    priority="Medium"
+    received_at="2026-10-27 14:00:00",
+    complaint_text="Incorrect account fee charged.",
+    priority="Medium",
+    account_id="ACC001"
 )
 ```
 

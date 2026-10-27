@@ -13,7 +13,7 @@ class AccountRepository:
             connection.row_factory = sqlite3.Row
             
             cursor = connection.cursor()
-            cursor.execute("SELECT * FROM accounts WHERE customer_id = ?", (customer_id,))
+            cursor.execute("SELECT * FROM account WHERE customer_id = ?", (customer_id,))
 
             results = cursor.fetchall()
 

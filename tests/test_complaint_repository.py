@@ -63,7 +63,7 @@ def main():
     priority="Medium"
     )
 
-    try: 
+    try:
         connection = db.connect()
         connection.row_factory = sqlite3.Row
         c = connection.cursor()

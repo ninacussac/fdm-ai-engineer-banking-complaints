@@ -41,7 +41,25 @@ No additional Python packages are required for the seeding script.
 
 The database file and reports are generated or updated when the script executes successfully.
 
-## 4. Initial Database Setup
+## 4. Repository Environment Configuration
+
+The database repositories use environment variables to locate the SQLite database.
+
+1. Initialize the database using `python -m scripts.seed_database`.
+2. Install the required dependency using `pip install python-dotenv`.
+3. Copy `.env.example` to `.env`.
+4. Verify that `DB_TEST_PATH` points to the generated SQLite database.
+5. Run a repository retrieval test:
+
+```bash
+python -c "from src.data import DatabaseManager; from src.data.customer_repository import CustomerRepository; print(CustomerRepository(DatabaseManager()).get_by_id('CUS001'))"
+```
+
+The expected result is a dictionary containing customer `CUS001`.
+
+The `.env` file must not be committed to Git. Repository tests that modify records should use a separate disposable SQLite database.
+
+## 5. Initial Database Setup
 
 From the project root, execute:
 
@@ -65,7 +83,7 @@ Expected output:
 Database initialized successfully (16 tables): ...
 ```
 
-## 5. Reset an Existing Database
+## 6. Reset an Existing Database
 
 If the database already exists, running the initialization command without `--reset` raises a `FileExistsError`.
 
@@ -85,7 +103,7 @@ Close any applications or editor connections using the SQLite database before re
 
 This utility is intended for local development and testing environments, not production databases.
 
-## 6. Seed Data
+## 7. Seed Data
 
 The project uses SQL seed scripts supplied for the FDM training exercise.
 
@@ -116,7 +134,7 @@ Three complaints intentionally contain a NULL `account_id`: `CMP023`, `CMP029`, 
 
 These are valid records because complaints can exist without a linked bank account.
 
-## 7. Data Validation and Transaction Management
+## 8. Data Validation and Transaction Management
 
 The utility enables SQLite foreign key enforcement using:
 
@@ -138,7 +156,7 @@ The integrity verification checks:
 
 Any critical validation failure prevents replacement of the existing database.
 
-## 8. Verify Successful Initialization
+## 9. Verify Successful Initialization
 
 After execution, inspect:
 
@@ -173,7 +191,7 @@ PRAGMA foreign_key_check;
 
 Expected result: no returned rows.
 
-## 9. Logging
+## 10. Logging
 
 The script records initialization events in:
 
@@ -192,7 +210,7 @@ Logs include:
 
 Errors are recorded with traceback details to assist troubleshooting.
 
-## 10. Troubleshooting
+## 11. Troubleshooting
 
 **FileExistsError — Database already exists**
 
@@ -218,7 +236,7 @@ Close SQLite editors or other applications holding an active database connection
 
 Inspect `seed_run_log.txt` and check the seed data for unexpected record counts or inconsistent references.
 
-## 11. Testing and Known Limitations
+## 12. Testing and Known Limitations
 
 The following scenarios have been tested:
 
@@ -235,7 +253,7 @@ Therefore, the implementation validates SQL insertion integrity rather than CSV 
 
 Expected record counts are based on the provided synthetic dataset and must be updated if the source data changes.
 
-## 12. Reuse in Future Exercises
+## 13. Reuse in Future Exercises
 
 The generated SQLite database can be reused for repository tests, SQL queries, complaint analysis, and later Banking CRS development exercises.
 

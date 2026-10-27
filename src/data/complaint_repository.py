@@ -36,26 +36,69 @@ class ComplaintRepository:
         finally:
             self.db_manager.close()
 
+
     def create(
-        self,customer_id,category,channel,status,date_opened,priority,
+        self,
+        customer_id,
+        category,
+        channel,
+        status,
+        received_at,
+        complaint_text,
+        priority,
         account_id=None,
-    ):       
-        # Insert a new complaint
+    ):
         connection = self.db_manager.connect()
+
         try:
-            connection.row_factory = sqlite3.Row
-            
             cursor = connection.cursor()
-            cursor.execute("SELECT MAX(CAST(SUBSTR(complaint_id, 3) AS INTEGER)) FROM complaint WHERE complaint_id GLOB 'CP[0-9]*';")
+
+            # Generate the next complaint ID
+            cursor.execute("""
+                SELECT MAX(
+                    CAST(SUBSTR(complaint_id, 4) AS INTEGER)
+                )
+                FROM complaint
+                WHERE complaint_id GLOB 'CMP[0-9]*'
+            """)
+
             max_number = cursor.fetchone()[0]
             next_number = (max_number or 0) + 1
-            new_complaint_id = f"CP{next_number:05d}"
-            cursor.execute("INSERT INTO complaint (complaint_id, customer_id, account_id, category, channel,priority, status, date_opened, priority) VALUES (?,?,?,?,?,?,?,?,?)", 
-                            (new_complaint_id, customer_id, account_id, category, channel, priority, status,date_opened, priority))
+            new_complaint_id = f"CMP{next_number:03d}"
 
-            self.db_manager.commit()  
+            # Insert new complaint
+            cursor.execute("""
+                INSERT INTO complaint (
+                    complaint_id,
+                    customer_id,
+                    account_id,
+                    channel,
+                    category,
+                    complaint_text,
+                    priority,
+                    status,
+                    received_at
+                )
+                VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)
+            """, (
+                new_complaint_id,
+                customer_id,
+                account_id,
+                channel,
+                category,
+                complaint_text,
+                priority,
+                status,
+                received_at
+            ))
+
+            self.db_manager.commit()
+
+            return new_complaint_id
+
         except sqlite3.Error:
-            self.db_manager.rollback() 
+            self.db_manager.rollback()
             raise
+
         finally:
             self.db_manager.close()

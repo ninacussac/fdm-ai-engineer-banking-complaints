@@ -28,6 +28,7 @@ class DatabaseManager:
             raise RuntimeError("Database connection is already open.")
         
         self.connection = sqlite3.connect(self.db_path)
+        self.connection.execute("PRAGMA foreign_keys = ON")
         return self.connection
 
 
