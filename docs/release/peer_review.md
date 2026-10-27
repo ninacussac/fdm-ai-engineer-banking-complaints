@@ -55,8 +55,10 @@
 - **Evidence:** `data/database/queries/basic_queries.sql` (Query 7) and `data/database/database_schema.sql`.
 - **Impact:** The query cannot fully satisfy Requirement 7 or reliably identify closed complaints with missing closure dates.
 - **Owner:** Nina Cussac
-- **Proposed Action:** Clarify the expected closure-date field with the coach. Either update the database schema to include `date_closed` or execute the validation against a dataset containing that field.
-- **Status:** Open — awaiting clarification.
+- **Corrective Action:** Implement a documented alternative query that identifies closed complaints without a valid, timestamped `CLOSED` event in `complaint_status_history`. This provides a partial integrity check without modifying the supplied database schema.
+- **Validation:** The original SQL query executed successfully in DBeaver. The alternative check must be tested separately and does not fully replace the required `date_closed` validation.
+- **Remaining Limitation:** A dedicated closure-date field or an explicit business rule confirming that status-history timestamps represent official closure dates is required to fully satisfy Requirement 7.
+- **Status:** Partially resolved — awaiting clarification from the coach.
 
 ---
 
@@ -64,12 +66,14 @@
 
 - **Severity:** Low
 - **Area:** SQL Queries / Business Logic
-- **Description:** Requirement 2 asks to list high-priority unresolved complaints. The current query filters only records where `priority = 'High'`, while the dataset also contains complaints with `priority = 'Critical'`. It is unclear whether critical complaints should also be included in the high-priority category.
+- **Description:** Requirement 2 asks for high-priority unresolved complaints. The original SQL query filtered only complaints with `priority = 'High'`, excluding records classified as `Critical`. Since `Critical` represents a higher urgency level, both priority values have been included in the updated query.
 - **Evidence:** `data/database/queries/basic_queries.sql` (Query 2) and `data/database/seed_data.sql`.
-- **Impact:** If critical complaints are considered high-priority, the current query excludes relevant unresolved complaints and underreports the number of high-priority cases.
+- **Impact:** The original query could underreport urgent unresolved complaints by excluding records with `Critical` priority.
 - **Owner:** Nina Cussac
-- **Proposed Action:** Confirm the business definition of high-priority complaints. If both `High` and `Critical` should be included, update the filter to `priority IN ('High', 'Critical')`.
-- **Status:** Open — awaiting clarification.
+- **Corrective Action:** Updated Query 2 to use `priority IN ('High', 'Critical')` while excluding complaints with `status = 'CLOSED'`.
+- **Validation:** The updated query was executed successfully in DBeaver against the seeded SQLite database.
+- **Remaining Limitation:** The interpretation of `Critical` as part of the high-priority group is a reasonable assumption that should be confirmed with the coach.
+- **Status:** Implemented and tested — pending business-rule confirmation and reviewer approval.
 
 ---
 
@@ -90,14 +94,11 @@
 
 ### FIND-006 — View Creation Is Not Idempotent
 
-- **Severity:** Low
-- **Area:** SQL Views / Reproducibility
-- **Description:** The `complaint_analyst_view.sql` script uses `CREATE VIEW` without checking whether the view already exists.
-- **Evidence:** `data/database/queries/complaint_analyst_view.sql`.
-- **Impact:** Re-executing the script on an existing database raises an error because the view has already been created.
-- **Owner:** Nina Cussac
-- **Proposed Action:** Use `CREATE VIEW IF NOT EXISTS` for repeatable creation, or explicitly drop and recreate the view when its definition changes.
-- **Status:** Open — non-blocking.
+- **Changed file:** `data/database/queries/complaint_analyst_view.sql`
+- **Correction:** Added `CREATE VIEW IF NOT EXISTS`, aligned table names with the SQLite schema, and standardized the closed-status filter.
+- **Validation:** Execute the view creation script twice and compare the number of rows in the view with the number of unresolved complaints.
+- **Status:** Resolved — pending reviewer approval.
+- **Commit reference:** Pending.
 
 ---
 
@@ -198,6 +199,19 @@
 - **Owner:** Nina Cussac
 - **Proposed Action:** Add a `.env.example` file, document the required database environment variables, and include an end-to-end repository setup and verification example.
 - **Status:** Instructions and `.env.example` reportedly added — pending clean setup verification.
+
+### FIND-014 — Monthly Complaint Volume Aggregation Does Not Distinguish Years
+
+- **Severity:** Medium
+- **Area:** SQL Queries / Complaint Metrics
+- **Description:** The original monthly complaint volume query used `strftime('%m', received_at)`, grouping complaints by month number without distinguishing between different years.
+- **Evidence:** `data/database/queries/complaint_metrics.sql`.
+- **Impact:** Complaints received in the same month across different years could be incorrectly combined, resulting in inaccurate monthly complaint volumes.
+- **Owner:** Nina Cussac
+- **Corrective Action:** Updated the query to use `strftime('%Y-%m', received_at)`, ensuring that complaints are grouped by both year and month.
+- **Validation:** Executed the updated SQL query successfully in DBeaver against the seeded SQLite database.
+- **Result:** PASS — Monthly complaint volumes are now grouped by distinct year-month periods.
+- **Status:** Resolved — pending reviewer approval.
 
 ## 4. Defect Tracking
 
