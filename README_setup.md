@@ -28,6 +28,14 @@ SQLite support is included in Python through the built-in `sqlite3` module.
 
 No additional Python packages are required for the seeding script.
 
+#### Python Dependencies
+
+Install the project dependencies from the repository root:
+
+```bash
+python -m pip install -r requirements.txt
+```
+
 ## 3. Required Files
 
 | File | Purpose |
