@@ -1,0 +1,89 @@
+2026-10-27 12:35:53,712 - INFO - Initialization started; reset=False; target=C:\Users\ninac\Documents\FDM\Projet_bank_assistant\fdm-ai-engineer-banking-complaints\data\database\seeded_test.db
+2026-10-27 12:35:53,714 - INFO - Executing schema from C:\Users\ninac\Documents\FDM\Projet_bank_assistant\fdm-ai-engineer-banking-complaints\data\database\database_schema.sql
+2026-10-27 12:35:53,784 - INFO - Schema created 16 tables: account, audit_log, complaint, complaint_status_history, customer, customer_response, employee, fee, investigation, policy_document, policy_section, recommendation, review_decision, review_request, service_request, transactions
+2026-10-27 12:35:53,786 - INFO - Initialization completed successfully: C:\Users\ninac\Documents\FDM\Projet_bank_assistant\fdm-ai-engineer-banking-complaints\data\database\seeded_test.db
+2026-10-27 12:35:59,097 - INFO - Initialization started; reset=True; target=C:\Users\ninac\Documents\FDM\Projet_bank_assistant\fdm-ai-engineer-banking-complaints\data\database\seeded_test.db
+2026-10-27 12:35:59,099 - INFO - Executing schema from C:\Users\ninac\Documents\FDM\Projet_bank_assistant\fdm-ai-engineer-banking-complaints\data\database\database_schema.sql
+2026-10-27 12:35:59,192 - INFO - Schema created 16 tables: account, audit_log, complaint, complaint_status_history, customer, customer_response, employee, fee, investigation, policy_document, policy_section, recommendation, review_decision, review_request, service_request, transactions
+2026-10-27 12:35:59,194 - INFO - Initialization completed successfully: C:\Users\ninac\Documents\FDM\Projet_bank_assistant\fdm-ai-engineer-banking-complaints\data\database\seeded_test.db
+2026-10-27 12:52:43,738 - INFO - Initialization started; reset=True; target=C:\Users\ninac\Documents\FDM\Projet_bank_assistant\fdm-ai-engineer-banking-complaints\data\database\seeded_test.db
+2026-10-27 12:52:43,739 - INFO - Executing schema from C:\Users\ninac\Documents\FDM\Projet_bank_assistant\fdm-ai-engineer-banking-complaints\data\database\database_schema.sql
+2026-10-27 12:52:43,923 - INFO - Starting seed data loading.
+2026-10-27 12:52:43,928 - INFO - Seed loading completed: 16 INSERT statements executed.
+2026-10-27 12:52:43,933 - INFO - Seed transaction committed successfully.
+2026-10-27 12:52:43,933 - INFO - Schema created 16 tables: account, audit_log, complaint, complaint_status_history, customer, customer_response, employee, fee, investigation, policy_document, policy_section, recommendation, review_decision, review_request, service_request, transactions
+2026-10-27 12:52:43,935 - INFO - Initialization completed successfully: C:\Users\ninac\Documents\FDM\Projet_bank_assistant\fdm-ai-engineer-banking-complaints\data\database\seeded_test.db
+2026-10-27 12:56:08,141 - INFO - Initialization started; reset=True; target=C:\Users\ninac\Documents\FDM\Projet_bank_assistant\fdm-ai-engineer-banking-complaints\data\database\seeded_test.db
+2026-10-27 12:56:08,141 - INFO - Executing schema from C:\Users\ninac\Documents\FDM\Projet_bank_assistant\fdm-ai-engineer-banking-complaints\data\database\database_schema.sql
+2026-10-27 12:56:08,229 - INFO - Starting seed data loading.
+2026-10-27 12:56:08,232 - ERROR - Seed transaction rolled back.
+Traceback (most recent call last):
+  File "C:\Users\ninac\Documents\FDM\Projet_bank_assistant\fdm-ai-engineer-banking-complaints\scripts\seed_database.py", line 111, in initialize_database
+    load_seed_data(connection, SEED_PATH)
+  File "C:\Users\ninac\Documents\FDM\Projet_bank_assistant\fdm-ai-engineer-banking-complaints\scripts\seed_database.py", line 58, in load_seed_data
+    connection.execute(sql)
+sqlite3.IntegrityError: FOREIGN KEY constraint failed
+2026-10-27 12:56:08,234 - ERROR - Initialization failed; existing database was not intentionally replaced
+Traceback (most recent call last):
+  File "C:\Users\ninac\Documents\FDM\Projet_bank_assistant\fdm-ai-engineer-banking-complaints\scripts\seed_database.py", line 111, in initialize_database
+    load_seed_data(connection, SEED_PATH)
+  File "C:\Users\ninac\Documents\FDM\Projet_bank_assistant\fdm-ai-engineer-banking-complaints\scripts\seed_database.py", line 58, in load_seed_data
+    connection.execute(sql)
+sqlite3.IntegrityError: FOREIGN KEY constraint failed
+2026-10-27 13:02:02,560 - INFO - Initialization started; reset=True; target=C:\Users\ninac\Documents\FDM\Projet_bank_assistant\fdm-ai-engineer-banking-complaints\data\database\seeded_test.db
+2026-10-27 13:02:02,560 - INFO - Executing schema from C:\Users\ninac\Documents\FDM\Projet_bank_assistant\fdm-ai-engineer-banking-complaints\data\database\database_schema.sql
+2026-10-27 13:02:02,645 - INFO - Starting seed data loading.
+2026-10-27 13:02:02,650 - INFO - Seed loading completed: 16 INSERT statements executed.
+2026-10-27 13:02:02,655 - INFO - Seed transaction committed successfully.
+2026-10-27 13:02:02,656 - INFO - Schema created 16 tables: account, audit_log, complaint, complaint_status_history, customer, customer_response, employee, fee, investigation, policy_document, policy_section, recommendation, review_decision, review_request, service_request, transactions
+2026-10-27 13:02:02,657 - ERROR - Initialization failed; existing database was not intentionally replaced
+Traceback (most recent call last):
+  File "C:\Users\ninac\Documents\FDM\Projet_bank_assistant\fdm-ai-engineer-banking-complaints\scripts\seed_database.py", line 172, in initialize_database
+    os.replace(temporary_path, db_path)
+PermissionError: [WinError 5] Accès refusé: 'C:\\Users\\ninac\\Documents\\FDM\\Projet_bank_assistant\\fdm-ai-engineer-banking-complaints\\data\\database\\seed_temp__nq8lwyg.db' -> 'C:\\Users\\ninac\\Documents\\FDM\\Projet_bank_assistant\\fdm-ai-engineer-banking-complaints\\data\\database\\seeded_test.db'
+2026-10-27 13:02:13,675 - INFO - Initialization started; reset=True; target=C:\Users\ninac\Documents\FDM\Projet_bank_assistant\fdm-ai-engineer-banking-complaints\data\database\seeded_test.db
+2026-10-27 13:02:13,676 - INFO - Executing schema from C:\Users\ninac\Documents\FDM\Projet_bank_assistant\fdm-ai-engineer-banking-complaints\data\database\database_schema.sql
+2026-10-27 13:02:13,754 - INFO - Starting seed data loading.
+2026-10-27 13:02:13,761 - INFO - Seed loading completed: 18 INSERT statements executed.
+2026-10-27 13:02:13,765 - INFO - Seed transaction committed successfully.
+2026-10-27 13:02:13,765 - INFO - Schema created 16 tables: account, audit_log, complaint, complaint_status_history, customer, customer_response, employee, fee, investigation, policy_document, policy_section, recommendation, review_decision, review_request, service_request, transactions
+2026-10-27 13:02:13,767 - ERROR - Initialization failed; existing database was not intentionally replaced
+Traceback (most recent call last):
+  File "C:\Users\ninac\Documents\FDM\Projet_bank_assistant\fdm-ai-engineer-banking-complaints\scripts\seed_database.py", line 172, in initialize_database
+    os.replace(temporary_path, db_path)
+PermissionError: [WinError 5] Accès refusé: 'C:\\Users\\ninac\\Documents\\FDM\\Projet_bank_assistant\\fdm-ai-engineer-banking-complaints\\data\\database\\seed_temp_n0jm63tc.db' -> 'C:\\Users\\ninac\\Documents\\FDM\\Projet_bank_assistant\\fdm-ai-engineer-banking-complaints\\data\\database\\seeded_test.db'
+2026-10-27 13:02:51,958 - INFO - Initialization started; reset=True; target=C:\Users\ninac\Documents\FDM\Projet_bank_assistant\fdm-ai-engineer-banking-complaints\data\database\seeded_test.db
+2026-10-27 13:02:51,960 - INFO - Executing schema from C:\Users\ninac\Documents\FDM\Projet_bank_assistant\fdm-ai-engineer-banking-complaints\data\database\database_schema.sql
+2026-10-27 13:02:52,046 - INFO - Starting seed data loading.
+2026-10-27 13:02:52,053 - INFO - Seed loading completed: 18 INSERT statements executed.
+2026-10-27 13:02:52,058 - INFO - Seed transaction committed successfully.
+2026-10-27 13:02:52,058 - INFO - Schema created 16 tables: account, audit_log, complaint, complaint_status_history, customer, customer_response, employee, fee, investigation, policy_document, policy_section, recommendation, review_decision, review_request, service_request, transactions
+2026-10-27 13:02:52,060 - INFO - Initialization completed successfully: C:\Users\ninac\Documents\FDM\Projet_bank_assistant\fdm-ai-engineer-banking-complaints\data\database\seeded_test.db
+2026-10-27 13:03:37,093 - INFO - Initialization started; reset=True; target=C:\Users\ninac\Documents\FDM\Projet_bank_assistant\fdm-ai-engineer-banking-complaints\data\database\seeded_test.db
+2026-10-27 13:03:37,094 - INFO - Executing schema from C:\Users\ninac\Documents\FDM\Projet_bank_assistant\fdm-ai-engineer-banking-complaints\data\database\database_schema.sql
+2026-10-27 13:03:37,167 - INFO - Starting seed data loading.
+2026-10-27 13:03:37,172 - INFO - Seed loading completed: 18 INSERT statements executed.
+2026-10-27 13:03:37,177 - INFO - Seed transaction committed successfully.
+2026-10-27 13:03:37,177 - INFO - Schema created 16 tables: account, audit_log, complaint, complaint_status_history, customer, customer_response, employee, fee, investigation, policy_document, policy_section, recommendation, review_decision, review_request, service_request, transactions
+2026-10-27 13:03:37,179 - ERROR - Initialization failed; existing database was not intentionally replaced
+Traceback (most recent call last):
+  File "C:\Users\ninac\Documents\FDM\Projet_bank_assistant\fdm-ai-engineer-banking-complaints\scripts\seed_database.py", line 172, in initialize_database
+    os.replace(temporary_path, db_path)
+PermissionError: [WinError 5] Accès refusé: 'C:\\Users\\ninac\\Documents\\FDM\\Projet_bank_assistant\\fdm-ai-engineer-banking-complaints\\data\\database\\seed_temp_53op3kqf.db' -> 'C:\\Users\\ninac\\Documents\\FDM\\Projet_bank_assistant\\fdm-ai-engineer-banking-complaints\\data\\database\\seeded_test.db'
+2026-10-27 13:03:49,453 - INFO - Initialization started; reset=True; target=C:\Users\ninac\Documents\FDM\Projet_bank_assistant\fdm-ai-engineer-banking-complaints\data\database\seeded_test.db
+2026-10-27 13:03:49,454 - INFO - Executing schema from C:\Users\ninac\Documents\FDM\Projet_bank_assistant\fdm-ai-engineer-banking-complaints\data\database\database_schema.sql
+2026-10-27 13:03:49,535 - INFO - Starting seed data loading.
+2026-10-27 13:03:49,542 - INFO - Seed loading completed: 18 INSERT statements executed.
+2026-10-27 13:03:49,547 - INFO - Seed transaction committed successfully.
+2026-10-27 13:03:49,548 - INFO - Schema created 16 tables: account, audit_log, complaint, complaint_status_history, customer, customer_response, employee, fee, investigation, policy_document, policy_section, recommendation, review_decision, review_request, service_request, transactions
+2026-10-27 13:03:49,549 - INFO - Initialization completed successfully: C:\Users\ninac\Documents\FDM\Projet_bank_assistant\fdm-ai-engineer-banking-complaints\data\database\seeded_test.db
+2026-10-27 13:08:20,718 - INFO - Initialization started; reset=True; target=C:\Users\ninac\Documents\FDM\Projet_bank_assistant\fdm-ai-engineer-banking-complaints\data\database\seeded_test.db
+2026-10-27 13:08:20,720 - INFO - Executing schema from C:\Users\ninac\Documents\FDM\Projet_bank_assistant\fdm-ai-engineer-banking-complaints\data\database\database_schema.sql
+2026-10-27 13:08:20,790 - INFO - Starting seed data loading.
+2026-10-27 13:08:20,797 - INFO - Seed loading completed: 18 INSERT statements executed.
+2026-10-27 13:08:20,802 - INFO - Seed transaction committed successfully.
+2026-10-27 13:08:20,802 - INFO - Schema created 16 tables: account, audit_log, complaint, complaint_status_history, customer, customer_response, employee, fee, investigation, policy_document, policy_section, recommendation, review_decision, review_request, service_request, transactions
+2026-10-27 13:08:20,804 - INFO - Starting database integrity verification.
+2026-10-27 13:08:20,806 - INFO - Integrity verification passed.
+2026-10-27 13:08:20,808 - INFO - Integrity report generated: C:\Users\ninac\Documents\FDM\Projet_bank_assistant\fdm-ai-engineer-banking-complaints\integrity_report.txt
+2026-10-27 13:08:20,809 - INFO - Initialization completed successfully: C:\Users\ninac\Documents\FDM\Projet_bank_assistant\fdm-ai-engineer-banking-complaints\data\database\seeded_test.db
