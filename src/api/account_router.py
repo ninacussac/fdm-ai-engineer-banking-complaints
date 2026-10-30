@@ -1,7 +1,7 @@
 from fastapi import APIRouter, Depends
 from sqlalchemy.orm import Session
 
-from src.data.connection import get_db
+from src.dependencies import get_db
 from src.schemas.account_schema import AccountCreate
 from src.services.account_service import AccountService
 from src.repositories.account_repository_sqlalchemy import AccountRepository
