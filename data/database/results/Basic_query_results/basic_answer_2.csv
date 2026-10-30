@@ -1,0 +1,5 @@
+"complaint_id","customer_id","account_id","channel","category","complaint_text","priority","status","received_at","assigned_analyst_id"
+CMP001,CUS001,ACC001,Phone,Fee Dispute,Unexpected overdraft fee,High,OPEN,"2025-01-01 09:00:00",EMP001
+CMP003,CUS003,ACC003,Branch,Transaction Error,Duplicate debit transaction,High,UNDER_REVIEW,"2025-01-09 14:00:00",EMP001
+CMP006,CUS006,ACC006,Email,Card Issue,Card blocked unexpectedly,High,OPEN,"2025-01-18 12:00:00",EMP002
+CMP007,CUS007,ACC007,Web,Transaction Error,ATM withdrawal issue,High,IN_PROGRESS,"2025-01-20 09:30:00",EMP001

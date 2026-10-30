@@ -1,0 +1,6 @@
+"complaint_id","customer_id","account_id","channel","category","complaint_text","priority","status","received_at","assigned_analyst_id"
+CMP001,CUS001,ACC001,Phone,Fee Dispute,Unexpected overdraft fee,High,OPEN,"2025-01-01 09:00:00",EMP001
+CMP004,CUS004,ACC004,Web,Online Banking,Login issue,Low,OPEN,"2025-01-12 10:00:00",EMP006
+CMP006,CUS006,ACC006,Email,Card Issue,Card blocked unexpectedly,High,OPEN,"2025-01-18 12:00:00",EMP002
+CMP008,CUS008,ACC008,Phone,Customer Service,Poor support experience,Low,OPEN,"2025-01-22 15:00:00",EMP006
+CMP010,CUS010,ACC010,Email,Fee Dispute,Monthly fee charged incorrectly,Medium,OPEN,"2025-01-25 08:45:00",EMP002
