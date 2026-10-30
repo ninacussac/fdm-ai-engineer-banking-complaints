@@ -7,7 +7,7 @@ from src.services.account_service import AccountService
 from src.repositories.account_repository_sqlalchemy import AccountRepository
 
 
-router = APIRouter(prefix="/bank", tags=["Accounts"])
+router = APIRouter(tags=["Accounts"])
 
 service_account = AccountService(
     account_repository=AccountRepository()

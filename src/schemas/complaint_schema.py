@@ -1,4 +1,3 @@
-
 from datetime import datetime
 
 from pydantic import BaseModel, Field
@@ -8,7 +7,6 @@ from src.models.models import (
     ComplaintStatus,
     ComplaintPriority
 )
-
 
 class ComplaintCreate(BaseModel):
     customer_id: str
