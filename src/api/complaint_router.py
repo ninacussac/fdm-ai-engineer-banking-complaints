@@ -25,6 +25,8 @@ def create_complaint(complaint: ComplaintCreate,db: Session = Depends(get_db)):
         return service_complaint.create_complaint(db, complaint)
     except ValueError as error:
         raise HTTPException(status_code=422,detail=str(error))
+    except Exception:
+        raise HTTPException(status_code=500, detail="Internal server error")
 
 
 @router.get("/complaints")
