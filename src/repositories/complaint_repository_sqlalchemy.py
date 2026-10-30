@@ -57,3 +57,10 @@ class ComplaintRepository:
             db.rollback()
             db.expire_all()
             raise
+
+    def get_by_customer_id(self, db: Session, customer_id: str):
+        return (
+            db.query(Complaint)
+            .filter(Complaint.customer_id == customer_id)
+            .all()
+        )
