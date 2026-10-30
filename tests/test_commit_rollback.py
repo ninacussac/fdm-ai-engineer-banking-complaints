@@ -1,4 +1,4 @@
-from src.data import DatabaseManager
+from src.repositories import DatabaseManager
 
 def main():
     db = DatabaseManager()

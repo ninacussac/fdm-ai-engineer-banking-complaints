@@ -1,5 +1,5 @@
-from src.data import DatabaseManager
-from src.data.complaint_repository import ComplaintRepository
+from src.repositories import DatabaseManager
+from src.repositories.complaint_repository import ComplaintRepository
 import sqlite3
 
 def main():

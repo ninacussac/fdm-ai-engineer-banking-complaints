@@ -2,112 +2,122 @@
 
 ## 1. Overview
 
-This document describes the design decisions made for the Python domain models of the Banking Complaint Resolution Assistant, as part of Week 3, Exercise 3.1.1.
+This document describes the design decisions for the Banking Complaint Resolution Assistant domain models, updated for Week 3, Exercise 3.1.1.
 
-The implementation introduces four domain models:
+The current implementation defines four SQLAlchemy ORM models in `src/models/models.py`:
 
-- **Customer:** Represents a bank customer and their personal information.
-- **Account:** Represents a bank account associated with a customer.
-- **Complaint:** Represents a customer complaint, including its category, priority, current status, and assigned analyst.
-- **ComplaintStatusEvent:** Represents a complaint status change and stores information about the previous status, new status, timestamp, and responsible employee.
+- **Customer:** Stores customer identity and contact information.
+- **Account:** Represents a bank account belonging to a customer.
+- **Complaint:** Represents a customer complaint, its classification, priority, status, and optional analyst assignment.
+- **ComplaintStatusEvent:** Represents a complaint status change, including the previous and new statuses, timestamp, and optional change metadata.
 
-The models are implemented using Python dataclasses with type annotations.
-
-Their attributes are aligned with the existing database schema developed during Week 2.
-
-The domain layer remains independent of SQL queries, database repositories, and web frameworks.
+The models inherit from a SQLAlchemy `DeclarativeBase` and map to the SQLite tables `customer`, `account`, `complaint`, and `complaint_status_history`. They are ORM classes, **not Python dataclasses**. SQL operations and session management are handled by repositories and the database connection layer rather than by domain methods.
 
 ## 2. Controlled Values and Validation
 
 ### 2.1 Enumerations
 
-Three Python enumerations (`Enum`) have been implemented to control complaint-related values:
+Three Python `Enum` types restrict complaint-related values:
 
-- **ComplaintCategory:** Defines the seven complaint categories identified in the Week 2 database, including Fee Dispute, Transaction Error, Fraud Claim, and Customer Service.
-- **ComplaintPriority:** Defines four priority levels: Low, Medium, High, and Critical.
-- **ComplaintStatus:** Defines four complaint statuses: OPEN, IN_PROGRESS, UNDER_REVIEW, and CLOSED.
+- **ComplaintCategory:** Fee Dispute, Service Delay, Transaction Error, Online Banking, Card Issue, Customer Service, Fraud Claim.
+- **ComplaintPriority:** Critical, High, Medium, Low.
+- **ComplaintStatus:** `OPEN`, `IN_PROGRESS`, `UNDER_REVIEW`, `CLOSED`.
 
-These enumerations ensure consistency with the existing database values and prevent the use of arbitrary strings in the domain models.
+SQLAlchemy uses `SAEnum` with a `values_callable` to store the enum **values**. At the API boundary, Pydantic schemas reject unsupported enum values with HTTP `422` responses.
 
-### 2.2 Domain Validation
+### 2.2 ORM Model Validation
 
-The `Complaint` and `ComplaintStatusEvent` models use the `__post_init__()` method to validate controlled values during object initialization.
+The `Complaint` model uses SQLAlchemy's `@validates("category", "status", "priority")` decorator to check values assigned to its controlled attributes. Incorrect Python types or unsupported string values raise `ValueError`; `priority` may be `None`.
 
-Invalid categories, priorities, or statuses raise a `ValueError`.
+`ComplaintStatusEvent` uses `@validates("new_status", "old_status")` to validate the statuses assigned to an event. `old_status` is optional; `new_status` must be a valid `ComplaintStatus`.
 
-Optional fields, such as `Complaint.priority` and `ComplaintStatusEvent.old_status`, can be set to `None` when no value is available.
+Unlike the initial design, validation is **not** implemented using dataclass `__post_init__()` methods. SQLAlchemy attribute validators are used instead.
 
 ### 2.3 Status Transitions
 
-Complaint status changes are managed through the `change_status()` method.
-
-The proposed workflow is:
+Complaint status changes follow the currently implemented workflow:
 
 `OPEN → IN_PROGRESS → UNDER_REVIEW → CLOSED`
 
-Allowed transitions are explicitly defined in the `VALID_STATUS_TRANSITIONS` dictionary.
+Allowed transitions are defined in `VALID_STATUS_TRANSITIONS`. The `Complaint.change_status()` method verifies the requested target status and transition before updating the complaint. On success it returns a `ComplaintStatusEvent` containing the old status, new status, and optional change metadata. The calling service/repository is responsible for persisting that event; returning it does not itself insert a database row.
 
-The method checks whether a requested transition is permitted before modifying the complaint status.
+Invalid transitions raise `ValueError` and leave the complaint's status unchanged. No transition is allowed from `CLOSED`.
 
-When a transition is valid, a `ComplaintStatusEvent` object is created to represent the change.
-
-Invalid transitions raise a `ValueError`, leaving the complaint status unchanged.
-
-**Note:** The transition rules are currently proposed business rules and must be confirmed against the approved project specification.
+**Specification note:** These implemented transition rules should still be checked against the approved business specification before production use.
 
 ## 3. Technical Design Decisions
 
-### 3.1 Python Data Types
+### 3.1 Data Types and Defaults
 
-Python type annotations were selected to match the existing Week 2 database schema:
+The ORM column types reflect the banking data:
 
-- `str` for identifiers, names, and text fields.
-- `Decimal` for account balances to avoid floating-point precision issues in financial calculations.
-- `date` for account opening dates.
-- `datetime` for customer creation dates, complaint reception timestamps, and status change timestamps.
-- `None` for optional fields, such as complaint account references, priorities, and assigned analysts.
+- `String` for identifiers and descriptive fields.
+- `Numeric(15, 2)` for account balances, with a `Decimal("0.00")` default to avoid floating-point precision issues in stored financial values.
+- `Date` for account opening dates.
+- `DateTime` for customer creation dates, complaint receipt timestamps, and status-event timestamps, using callable `datetime.now` defaults where defined.
+- Nullable fields for optional contact information, complaint account reference, priority, analyst assignment, and event metadata, as permitted by each model.
 
-The `field(default_factory=...)` mechanism is used to generate default values for timestamps and account balances.
+SQLAlchemy defaults such as `default=datetime.now` run when a database insertion occurs, not automatically merely because a Python object was constructed.
 
-### 3.2 Database Independence
+### 3.2 Identifiers and Relationships
 
-The domain models do not contain SQL queries or database connection logic.
+The `generate_id(session, model)` helper generates model-specific, sequentially formatted identifiers:
 
-Relationships between entities are represented using identifiers, such as `customer_id`, `account_id`, and `complaint_id`.
+- Customer: `CUS001`, `CUS002`, ...
+- Account: `ACC001`, `ACC002`, ...
+- Complaint: `CMP001`, `CMP002`, ...
 
-### 3.3 Status History
+It selects existing IDs, finds the largest matching numeric suffix, and increments it. Repositories use the helper when inserting new records. The account and complaint models reference related records with SQLAlchemy foreign keys.
 
-The `ComplaintStatusEvent` model represents changes in complaint status.
+**Limitation:** Reading the maximum existing suffix is not concurrency-safe. Simultaneous requests could calculate the same next identifier. A database-managed mechanism would be preferable in production.
 
-The `history_id` field is optional because the database automatically generates this identifier when the event is inserted.
+### 3.3 Layer Responsibilities
 
-The `change_status()` method returns a status event after a valid transition, allowing the persistence layer to save the event separately.
+- **ORM models:** Define entity mappings, controlled values, and complaint transition behavior.
+- **Pydantic schemas:** Validate incoming API payloads.
+- **Repositories:** Query, insert, and retrieve records through SQLAlchemy sessions.
+- **Services:** Coordinate application operations and business workflows.
+- **FastAPI routers:** Expose endpoints under `/bank`.
 
-## 4. Testing Strategy
+The ORM models contain database column declarations and foreign-key mappings, but no hand-written SQL queries or session-management code. This is different from a fully persistence-independent domain model.
 
-Unit tests were implemented using Pytest in `tests/test_domain_models.py`.
+### 3.4 Status History
 
-The initial test suite contains eight tests covering:
+`ComplaintStatusEvent` maps to `complaint_status_history`. Its integer `history_id` is generated by SQLite on insertion. The `change_status()` method creates an event object; saving it remains a separate persistence operation, which enables explicit control of audit-history writes.
 
-- Successful complaint creation.
-- Rejection of invalid complaint categories.
-- Rejection of invalid complaint statuses.
-- Rejection of invalid complaint priorities.
-- Successful status transitions and event creation.
-- Rejection of invalid status transitions without modifying the complaint.
-- Successful creation of complaint status events.
-- Rejection of complaint status events with invalid new statuses.
+## 4. Testing Strategy and Evidence
 
-All eight initial tests passed.
+Tests are implemented with Pytest in `tests/test_domain_models.py`. The updated suite contains **12 passing tests**, as verified during development.
 
-These tests verify the domain logic independently of the database and web framework.
+The suite covers:
+
+1. Creating a customer using `POST /bank/customers` and checking its generated `CUS` identifier.
+2. Creating an account using `POST /bank/accounts` and checking its generated `ACC` identifier.
+3. Creating a complaint using `POST /bank/complaints` and checking its generated `CMP` identifier.
+4. A valid transition from `OPEN` to `IN_PROGRESS`, including the returned status-event object.
+5. Rejection of a direct `OPEN` to `CLOSED` transition.
+6. Rejection of transitions from `CLOSED`.
+7. API rejection of an invalid complaint category (`422`).
+8. API rejection of an invalid complaint status (`422`).
+9. API rejection of an invalid complaint priority (`422`).
+10. ORM rejection of an invalid complaint category.
+11. ORM rejection of an invalid complaint priority.
+12. ORM rejection of an invalid status-event `new_status`.
+
+Run the suite from the repository root with:
+
+```powershell
+python -m pytest tests/test_domain_models.py -v
+```
+
+**Test-environment limitation:** The API creation tests currently write to the development SQLite database (`bank_complaint.db`) and use some fixed IDs/account numbers. They therefore depend on existing data and may not be repeatable without cleanup. A future improvement is to use test fixtures with an isolated SQLite database and dynamically created related records.
 
 ## 5. Future Improvements
 
-Potential improvements include:
-
-- Confirming the allowed status transitions against the approved business specification.
-- Adding validation for mandatory identifiers and text fields.
-- Adding tests for optional values and invalid previous event statuses.
-- Integrating the domain models into the service layer during Exercise 3.1.2.
-- Connecting the service layer to the existing database repositories while keeping SQL outside the domain models.
+- Confirm the workflow transitions and controlled values against the approved project specification.
+- Add isolated, repeatable database fixtures for API integration tests.
+- Validate additional required fields and optional-value edge cases.
+- Add tests covering status-event persistence and retrieval through the API.
+- Use a concurrency-safe strategy for generating customer, account, and complaint identifiers.
+- Ensure complaint status updates and history-event persistence occur within a single transaction in the service layer.
+- Extend service-layer behavior in Exercise 3.1.2 while retaining separation between routers, services, repositories, and models.

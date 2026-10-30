@@ -1,5 +1,5 @@
-from src.data import DatabaseManager
-from src.data.account_repository import AccountRepository
+from src.repositories import DatabaseManager
+from src.repositories.account_repository import AccountRepository
 
 def main():
     db = DatabaseManager()
