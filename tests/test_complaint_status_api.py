@@ -15,3 +15,5 @@ def test_complaint_not_found():
 def test_invalid_transition():
     response = client.patch("/complaints/CMP016/status", json={"new_status":"OPEN"})
     assert response.status_code==409
+    assert response.json()["code"] == "INVALID_STATUS_TRANSITION"
+    assert response.json()["message"] == "Invalid status transition"

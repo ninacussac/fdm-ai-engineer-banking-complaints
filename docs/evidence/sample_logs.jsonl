@@ -1,0 +1,2 @@
+{"timestamp": "2026-11-02T16:47:52.402171+00:00", "level": "ERROR", "correlation_id": "50c889d7-7051-4c14-a649-f38a7adfd82f", "operation": "GET /complaints/{complaint_id}", "outcome": "error", "duration_ms": 14.53}
+{"timestamp": "2026-11-02T16:49:26.093663+00:00", "level": "INFO", "correlation_id": "70bab13c-b78f-4d96-b9e2-a28b0e973b91", "operation": "GET /health", "outcome": "success", "duration_ms": 8.18}

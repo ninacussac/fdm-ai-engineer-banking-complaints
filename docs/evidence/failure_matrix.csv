@@ -1,0 +1,7 @@
+scenario,http_status,error_code,expected_log_level,test_result
+Customer not found,404,CUSTOMER_NOT_FOUND,ERROR,PASSED
+Complaint not found,404,COMPLAINT_NOT_FOUND,ERROR,PASSED
+Invalid status transition,409,INVALID_STATUS_TRANSITION,ERROR,PASSED
+Invalid request data,422,VALIDATION_ERROR,ERROR,PASSED
+Database unavailable,503,DEPENDENCY_UNAVAILABLE,ERROR,PASSED
+Unexpected internal error,500,INTERNAL_ERROR,ERROR,PASSED

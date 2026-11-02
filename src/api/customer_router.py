@@ -9,6 +9,7 @@ from src.repositories.customer_repository_sqlalchemy import CustomerRepository
 from src.services.complaint_service import ComplaintService
 from src.repositories.complaint_repository_sqlalchemy import ComplaintRepository
 from src.repositories.account_repository_sqlalchemy import AccountRepository
+from src.api.error_handlers import AppError
 
 router = APIRouter(tags=["Customers"])
 
@@ -37,8 +38,12 @@ def get_customers(db: Session = Depends(get_db)):
 def get_customer_id( customer_id:str, db:Session = Depends(get_db)):
     try :
         return service_customer.get_customer_by_id(db,customer_id)
-    except ValueError as error:
-        raise HTTPException(status_code=404, detail=str(error)) from error
+    except ValueError:
+        raise AppError(
+            code = "CUSTOMER_NOT_FOUND",
+            message="Customer not found",
+            status_code=404
+        )
 
 @router.get("/customers/{customer_id}/complaints")
 def get_customer_complaints(customer_id:str, db:Session=Depends(get_db)):
