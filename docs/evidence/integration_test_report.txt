@@ -1,0 +1,19 @@
+﻿============================= test session starts =============================
+platform win32 -- Python 3.12.10, pytest-9.2.0, pluggy-1.7.0 -- C:\Users\ninac\Documents\FDM\Projet_bank_assistant\fdm-ai-engineer-banking-complaints\venv\Scripts\python.exe
+cachedir: .pytest_cache
+rootdir: C:\Users\ninac\Documents\FDM\Projet_bank_assistant\fdm-ai-engineer-banking-complaints
+plugins: anyio-4.15.1
+collecting ... collected 10 items
+
+tests/integration/test_complaint_api.py::test_create_complaint PASSED    [ 10%]
+tests/integration/test_complaint_api.py::test_valid_complaint_status_update PASSED [ 20%]
+tests/integration/test_complaint_api.py::test_create_complaint_with_missing_priority PASSED [ 30%]
+tests/integration/test_complaint_api.py::test_invalid_complaint_status_update PASSED [ 40%]
+tests/integration/test_complaint_api.py::test_database_unavailable PASSED [ 50%]
+tests/integration/test_complaint_api.py::test_rollback_when_status_event_fails PASSED [ 60%]
+tests/integration/test_complaint_api.py::test_missing_complaint_has_correlation_id PASSED [ 70%]
+tests/integration/test_customer_api.py::test_get_existing_customer PASSED [ 80%]
+tests/integration/test_customer_api.py::test_get_missing_customer PASSED [ 90%]
+tests/integration/test_database_setup.py::test_database_contains_seed_data PASSED [100%]
+
+============================= 10 passed in 0.62s ==============================
