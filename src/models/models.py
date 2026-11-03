@@ -5,11 +5,8 @@ from decimal import Decimal
 from enum import Enum
 
 from sqlalchemy import Numeric, String,ForeignKey,Integer, Column, DateTime, Date, Enum as SAEnum, select
-from sqlalchemy.orm import DeclarativeBase, Session, validates
-
-
-class Base(DeclarativeBase):
-    pass
+from sqlalchemy.orm import Session, validates
+from src.data.base import Base
 
 def enum_values(enum_class):
     return [member.value for member in enum_class]
