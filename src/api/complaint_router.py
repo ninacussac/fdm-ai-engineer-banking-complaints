@@ -24,11 +24,12 @@ service_complaint = ComplaintService(
 def create_complaint(complaint: ComplaintCreate,db: Session = Depends(get_db)):
     try:
         return service_complaint.create_complaint(db, complaint)
-    except ValueError as error:
-        # raise AppError(
-        #     code = ""
-        # )
-        raise HTTPException(status_code=422,detail=str(error))
+    except ValueError:
+        raise AppError(
+            code="INVALID_COMPLAINT_DATA",
+            message="Invalid complaint data",
+            status_code=422
+        )
     except OperationalError:
         raise AppError(
             code="DEPENDENCY_UNAVAILABLE",

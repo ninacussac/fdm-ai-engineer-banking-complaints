@@ -184,3 +184,24 @@ def test_missing_complaint_has_correlation_id(client):
 
     assert data["correlation_id"] is not None
     assert data["correlation_id"]==response.headers["X-Correlation-ID"]
+
+
+def test_create_complaint_with_unknown_customer(client, test_db):
+    response = client.post(
+        "/complaints",
+        json={
+            "customer_id": "CUS999",
+            "channel": "Email",
+            "category": "Fee Dispute",
+            "complaint_text": "I am unhappy with the banking service.",
+            "status": "OPEN",
+            "priority": "High"
+        }
+    )
+
+    assert response.status_code == 422
+
+    data = response.json()
+    assert data["code"] == "INVALID_COMPLAINT_DATA"
+    assert data["message"] == "Invalid complaint data"
+    assert data["correlation_id"] == response.headers["X-Correlation-ID"]
