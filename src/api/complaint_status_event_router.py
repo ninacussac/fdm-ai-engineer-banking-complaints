@@ -7,7 +7,7 @@ from src.services.complaint_status_event_service import (ComplaintStatusEventSer
 from src.repositories.complaint_status_event_repository_sqlalchemy import (ComplaintStatusEventRepository)
 
 
-router = APIRouter(prefix="/bank", tags=["Complaint Status Events"])
+router = APIRouter(tags=["Complaint Status Events"])
 
 service_event = ComplaintStatusEventService(event_repository=ComplaintStatusEventRepository())
 

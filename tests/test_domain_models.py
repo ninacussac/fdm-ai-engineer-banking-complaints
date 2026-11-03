@@ -9,12 +9,12 @@ client = TestClient(app)
 
 
 def test_create_customer():
-    name = "Louis"
-    last_name = "Franc"
-    email = "louis.franc@example.com"
+    name = "Marine"
+    last_name = "Moreau"
+    email = "marine.moreau@example.com"
 
     response = client.post(
-        "/bank/customers",
+        "/customers",
         json={
             "first_name": name,
             "last_name": last_name,
@@ -36,13 +36,13 @@ def test_create_customer():
 
 
 def test_create_account():
-    customer_id = "CUS006"
-    account_number = "100000008"
-    account_type = "Chequing"
+    customer_id = "CUS008"
+    account_number = "100000010"
+    account_type = "Savings"
     status = "ACTIVE"
-    current_balance = 100.00
+    current_balance = 100000.00
     response = client.post(
-        "/bank/accounts",
+        "/accounts",
         json={
             "customer_id": customer_id,
             "account_number": account_number,
@@ -66,16 +66,16 @@ def test_create_account():
 
 
 def test_create_complaint():
-    customer_id = "CUS003"
+    customer_id = "CUS001"
     channel = "Email"
     category = "Online Banking"
     complaint_text = "Login Issue"
     status = "OPEN"
-    account_id = "ACC004"
+    account_id = "ACC001"
     priority = "Low"
 
     response = client.post(
-        "/bank/complaints",
+        "/complaints",
         json={
             "customer_id": customer_id,
             "channel":channel,
@@ -88,7 +88,7 @@ def test_create_complaint():
         }
     )
 
-    assert response.status_code == 200, response.text
+    assert response.status_code == 201, response.text
 
     data = response.json()
 
@@ -142,7 +142,7 @@ def test_closed_complaint_transition():
 
 def test_invalid_complaint_category():
     response = client.post(
-        "/bank/complaints",
+        "/complaints",
         json={
             "customer_id": "CUS001",
             "account_id": "ACC001",
@@ -159,7 +159,7 @@ def test_invalid_complaint_category():
 
 def test_invalid_complaint_status():
     response = client.post(
-        "/bank/complaints",
+        "/complaints",
         json={
             "customer_id": "CUS001",
             "account_id": "ACC001",
@@ -176,7 +176,7 @@ def test_invalid_complaint_status():
 
 def test_invalid_complaint_priority():
     response = client.post(
-        "/bank/complaints",
+        "/complaints",
         json={
             "customer_id": "CUS001",
             "account_id": "ACC001",

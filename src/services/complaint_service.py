@@ -35,6 +35,13 @@ class ComplaintService:
         event= complaint.change_status(
             new_status = new_status,
             changed_by = changed_by,
-            comments = comments
-        )
+            comments = comments)
         return self.complaint_repository.save_status_change(db, complaint, event)
+
+    def get_customer_complaints(self, db, customer_id):
+        customer = self.customer_repository.get_by_id(db, customer_id)
+
+        if customer is None:
+            raise ValueError(f"Customer {customer_id} does not exist")
+
+        return self.complaint_repository.get_by_customer_id(db,customer_id)
