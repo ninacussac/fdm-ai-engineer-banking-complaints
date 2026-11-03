@@ -15,7 +15,7 @@
 |---|---|---|---|
 | REV-01 | Database schema builds successfully | PASS | 16 tables created during Exercise 2.5.1 |
 | REV-02 | Database seeding succeeds | PASS | SQL seed script executed successfully with 30 complaints |
-| REV-03 | Database integrity checks pass | PASS | `integrity_report.txt` reports PASS, with zero foreign key violations |
+| REV-03 | Database integrity checks pass | PASS | [Integrity report](../discovery/integrity_report.txt) reports PASS, with zero foreign key violations |
 | REV-04 | SQL query files execute successfully | PARTIAL | Corrected JOIN and repeat-complainant queries were run successfully; full execution of all Week 2 SQL files remains pending |
 | REV-05 | Python analysis matches expected results | PASS (output comparison) | Complaint counts, percentages and average resolution times match between the summary and exported CSV. Independent execution pending |
 | REV-06 | Repositories use parameterized SQL | PASS (static review) | All three repositories use bound SQL parameters. Complaint creation and invalid-customer rejection tests passed; complete regression testing remains pending |
@@ -193,8 +193,8 @@
 
 - **Severity:** Medium
 - **Area:** Documentation / Environment Setup
-- **Description:** `README_setup.md` documents database initialization but does not explain how to configure the `DB_TEST_PATH` environment variable required by `DatabaseManager`. The `.env` configuration is referenced in `README.md`, but a complete setup procedure connecting the generated database to the repositories is missing.
-- **Evidence:** `README.md`, `README_setup.md`, and `src/data/database_manager.py`.
+- **Description:** [README_setup.md](../setup/README_setup.md) documents database initialization but does not explain how to configure the `DB_TEST_PATH` environment variable required by `DatabaseManager`. The `.env` configuration is referenced in `README.md`, but a complete setup procedure connecting the generated database to the repositories is missing.
+- **Evidence:** `README.md`, [README_setup.md](../setup/README_setup.md), and `src/data/database_manager.py`.
 - **Impact:** Another developer may successfully initialize the SQLite database but be unable to execute repository operations without additional configuration instructions.
 - **Owner:** Nina Cussac
 - **Proposed Action:** Add a `.env.example` file, document the required database environment variables, and include an end-to-end repository setup and verification example.
@@ -236,7 +236,7 @@ For each additional finding, record:
 | FIND-010 | `src/data/complaint_repository.py`, `src/data/database_manager.py`, `tests/test_complaint_repository.py` | `python -m tests.test_complaint_repository`; `CMP031` created/retrieved, invalid customer rejected | PASS for tested scenarios | Pending |
 | FIND-011 | `src/data/complaint_repository.py` | Created `CMP031` on a 30-complaint seed | PASS for ID format; concurrency not verified | Pending |
 | FIND-012 | `README.md` | Author reports updated seeded IDs and complaint creation example | Pending verification | Pending |
-| FIND-013 | `README_setup.md`, `.env.example` | Author reports documented setup and environment configuration | Pending independent clean setup | Pending |
+| FIND-013 | [README_setup.md](../setup/README_setup.md), `.env.example` | Author reports documented setup and environment configuration | Pending independent clean setup | Pending |
 
 All correction commits and PR references must be added after version control changes. Reported tests do not replace an independent clean setup by a non-author.
 
