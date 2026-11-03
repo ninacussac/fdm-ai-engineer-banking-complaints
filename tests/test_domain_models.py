@@ -4,6 +4,7 @@ from src.main import app
 from datetime import datetime, date
 from src.models.models import Complaint, ComplaintStatus, ComplaintStatusEvent, ComplaintCategory, ComplaintPriority
 import pytest
+from uuid import uuid4
 
 client = TestClient(app)
 
@@ -11,7 +12,7 @@ client = TestClient(app)
 def test_create_customer():
     name = "Marine"
     last_name = "Moreau"
-    email = "marine.moreau@example.com"
+    email = f"marine.moreau.{uuid4().hex[:8]}@example.com"
 
     response = client.post(
         "/customers",
@@ -37,7 +38,7 @@ def test_create_customer():
 
 def test_create_account():
     customer_id = "CUS008"
-    account_number = "100000010"
+    account_number = str(uuid4().int)[:10]
     account_type = "Savings"
     status = "ACTIVE"
     current_balance = 100000.00

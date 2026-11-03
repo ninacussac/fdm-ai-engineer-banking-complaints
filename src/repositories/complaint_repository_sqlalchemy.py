@@ -11,24 +11,43 @@ from src.models.models import (
 class ComplaintRepository:
 
     def create(self, db: Session, complaint_data):
-        complaint = Complaint(
-            complaint_id=generate_id(db, Complaint),
-            customer_id=complaint_data.customer_id,
-            channel=complaint_data.channel,
-            category=complaint_data.category,
-            complaint_text=complaint_data.complaint_text,
-            status=complaint_data.status,
-            received_at=complaint_data.received_at,
-            account_id=complaint_data.account_id,
-            priority=complaint_data.priority,
-            assigned_analyst_id=complaint_data.assigned_analyst_id,
-        )
+        try:
+            complaint = Complaint(
+                complaint_id=generate_id(db, Complaint),
+                customer_id=complaint_data.customer_id,
+                channel=complaint_data.channel,
+                category=complaint_data.category,
+                complaint_text=complaint_data.complaint_text,
+                status=complaint_data.status,
+                received_at=complaint_data.received_at,
+                account_id=complaint_data.account_id,
+                priority=complaint_data.priority,
+                assigned_analyst_id=complaint_data.assigned_analyst_id,
+            )
 
-        db.add(complaint)
-        db.commit()
-        db.refresh(complaint)
+            db.add(complaint)
+            db.flush()
 
-        return complaint
+            initial_event = ComplaintStatusEvent(
+                complaint_id=complaint.complaint_id,
+                new_status=complaint.status,
+                old_status=None,
+                changed_by=None,
+                comments="Initial complaint creation",
+            )
+
+            db.add(initial_event)
+            db.flush()
+
+            # real commit to the database
+            db.commit()
+            db.refresh(complaint)
+
+            return complaint
+        
+        except Exception:
+            db.rollback()
+            raise
 
     def get_all(self, db: Session):
         return db.query(Complaint).all()
