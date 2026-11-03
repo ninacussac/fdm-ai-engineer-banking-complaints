@@ -1,0 +1,40 @@
+DATABASE INTEGRITY REPORT
+=============================================
+
+1. TABLE ROW COUNTS
+---------------------------------------------
+employee: expected=10, actual=10 [PASS]
+customer: expected=10, actual=10 [PASS]
+account: expected=10, actual=10 [PASS]
+complaint: expected=30, actual=30 [PASS]
+complaint_status_history: expected=30, actual=30 [PASS]
+transactions: expected=10, actual=10 [PASS]
+fee: expected=10, actual=10 [PASS]
+service_request: expected=10, actual=10 [PASS]
+policy_document: expected=10, actual=10 [PASS]
+policy_section: expected=10, actual=10 [PASS]
+investigation: expected=10, actual=10 [PASS]
+recommendation: expected=10, actual=10 [PASS]
+review_request: expected=10, actual=10 [PASS]
+review_decision: expected=10, actual=10 [PASS]
+customer_response: expected=10, actual=10 [PASS]
+audit_log: expected=10, actual=10 [PASS]
+
+2. FOREIGN KEY VALIDATION
+---------------------------------------------
+Foreign key violations: 0
+
+3. COMPLAINT ACCOUNT OWNERSHIP
+---------------------------------------------
+Account ownership mismatches: 0
+
+4. COMPLAINTS WITHOUT AN ACCOUNT
+---------------------------------------------
+Complaints with NULL account_id: 3
+  - CMP023
+  - CMP029
+  - CMP030
+
+5. FINAL RESULT
+---------------------------------------------
+STATUS: PASS

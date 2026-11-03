@@ -1,0 +1,2 @@
+"complaint_id","customer_id","account_id","channel","category","complaint_text","priority","status","received_at","assigned_analyst_id"
+CMP003,CUS003,ACC003,Branch,Transaction Error,Duplicate debit transaction,High,UNDER_REVIEW,"2025-01-09 14:00:00",EMP001
