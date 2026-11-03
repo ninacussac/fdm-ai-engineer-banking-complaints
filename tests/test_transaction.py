@@ -88,7 +88,8 @@ def test_rollback_when_event_fails():
                 }
             )
         assert response.status_code == 500
-        assert response.json()["detail"] == "Internal server error"
+        assert response.json()["code"] == "INTERNAL_ERROR"
+        assert response.json()["message"] == "Internal server error"
     finally:
         event.remove(ComplaintStatusEvent, "before_insert", fail_event_insert)
 
