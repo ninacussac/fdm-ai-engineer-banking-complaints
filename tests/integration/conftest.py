@@ -16,34 +16,34 @@ def test_db(tmp_path):
     db_path = tmp_path/"test.db"
 
     engine = create_engine(f"sqlite:///{db_path}", connect_args={"check_same_thread":False})
+    try:
+        Base.metadata.create_all(bind = engine)
 
-    Base.metadata.create_all(bind = engine)
+        TestSession = sessionmaker(autoflush=False, autocommit = False, bind=engine)
 
-    TestSession = sessionmaker(autoflush=False, autocommit = False, bind=engine)
+        with TestSession() as db:
+            customer = Customer(
+                customer_id="CUS001",
+                first_name = "Test",
+                last_name = "Customer",
+                email="test.customer@example.com"
+            )
 
-    with TestSession() as db:
-        customer = Customer(
-            customer_id="CUS001",
-            first_name = "Test",
-            last_name = "Customer",
-            email="test.customer@example.com"
-        )
+            account = Account(
+                account_id="ACC001",
+                customer_id="CUS001",
+                account_number = "TEST123456",
+                account_type="Checking",
+                status="Active",
+                opened_date = date(2026,1,1)
+            )
 
-        account = Account(
-            account_id="ACC001",
-            customer_id="CUS001",
-            account_number = "TEST123456",
-            account_type="Checking",
-            status="Active",
-            opened_date = date(2026,1,1)
-        )
-
-        db.add(customer)
-        db.add(account)
-        db.commit()
-        yield db
-
-    engine.dispose()
+            db.add(customer)
+            db.add(account)
+            db.commit()
+            yield db
+    finally:
+        engine.dispose()
 
 
 @pytest.fixture
