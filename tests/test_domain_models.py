@@ -9,9 +9,9 @@ client = TestClient(app)
 
 
 def test_create_customer():
-    name = "Maelle"
-    last_name = "Reni"
-    email = "maelle.reni@example.com"
+    name = "Laurent"
+    last_name = "Jamb"
+    email = "laurent.jamb@example.com"
 
     response = client.post(
         "/bank/customers",
@@ -36,11 +36,11 @@ def test_create_customer():
 
 
 def test_create_account():
-    customer_id = "CUS005"
-    account_number = "100000002"
-    account_type = "Business"
+    customer_id = "CUS004"
+    account_number = "100000005"
+    account_type = "Savings"
     status = "ACTIVE"
-    current_balance = 50000.00
+    current_balance = 60000.00
     response = client.post(
         "/bank/accounts",
         json={
