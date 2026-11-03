@@ -15,13 +15,20 @@ from src.models import models
 from src.api.error_handlers import AppError, app_error_handler, validation_error_handler
 from fastapi.exceptions import RequestValidationError
 from src.logging_config import log_request
+from contextlib import asynccontextmanager
 
 
-# creer les tables
-Base.metadata.create_all(bind=engine)
 
-#run the app
-app = FastAPI(title = settings.APP_NAME)
+
+@asynccontextmanager
+async def lifespan(app: FastAPI):
+    if not app.state.testing:
+        #creates the table
+        Base.metadata.create_all(bind=engine)
+    yield
+
+app = FastAPI(title=settings.APP_NAME, lifespan=lifespan)
+app.state.testing = False
 
 #create middleware :
 @app.middleware("http")
