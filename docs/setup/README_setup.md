@@ -44,8 +44,8 @@ python -m pip install -r requirements.txt
 | `data/database/database_schema.sql` | SQL statements defining the 16 database tables |
 | `data/database/seed_data.sql` | Synthetic data used to populate the database |
 | `data/database/seeded_test.db` | Generated SQLite database |
-| `seed_run_log.txt` | Execution history and error logs |
-| `integrity_report.txt` | Database integrity verification results |
+| `docs/discovery/seed_run_log.txt` | Execution history and error logs |
+| `docs/discovery/integrity_report.txt` | Database integrity verification results |
 
 The database file and reports are generated or updated when the script executes successfully.
 
@@ -169,7 +169,7 @@ Any critical validation failure prevents replacement of the existing database.
 After execution, inspect:
 
 ```text
-integrity_report.txt
+docs/discovery/integrity_report.txt
 ```
 
 A successful run should end with:
@@ -204,7 +204,7 @@ Expected result: no returned rows.
 The script records initialization events in:
 
 ```text
-seed_run_log.txt
+docs/discovery/seed_run_log.txt
 ```
 
 Logs include:
@@ -242,7 +242,7 @@ Close SQLite editors or other applications holding an active database connection
 
 **Integrity verification failed**
 
-Inspect `seed_run_log.txt` and check the seed data for unexpected record counts or inconsistent references.
+Inspect `docs/discovery/seed_run_log.txt` and check the seed data for unexpected record counts or inconsistent references.
 
 ## 12. Testing and Known Limitations
 

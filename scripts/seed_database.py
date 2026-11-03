@@ -9,8 +9,8 @@ PROJECT_ROOT = Path(__file__).resolve().parent.parent
 SCHEMA_PATH = PROJECT_ROOT / "data" / "database" / "database_schema.sql"
 DB_PATH = PROJECT_ROOT / "data" / "database" / "seeded_test.db"
 SEED_PATH = PROJECT_ROOT / "data" / "database" / "seed_data.sql"
-LOG_PATH = PROJECT_ROOT / "seed_run_log.txt"
-REPORT_PATH = PROJECT_ROOT / "integrity_report.txt"
+LOG_PATH = PROJECT_ROOT / "docs" / "discovery" / "seed_run_log.txt"
+REPORT_PATH = PROJECT_ROOT / "docs" / "discovery" / "integrity_report.txt"
 EXPECTED_TABLE_COUNT = 16
 
 logging.basicConfig(

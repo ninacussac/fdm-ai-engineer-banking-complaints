@@ -45,7 +45,7 @@
 ## 5. Rebuild and recovery
 
 1. Clone or check out the approved integration commit.
-2. Follow `README_setup.md` to install dependencies, configure `.env` from `.env.example`, and run `python -m scripts.seed_database`.
-3. Inspect `integrity_report.txt` and run representative SQL/repository checks.
+2. Follow [README_setup.md](../setup/README_setup.md) to install dependencies, configure `.env` from `.env.example`, and run `python -m scripts.seed_database`.
+3. Inspect [integrity_report.txt](../discovery/integrity_report.txt) and run representative SQL/repository checks.
 4. To replace a **disposable local test database only**, close connections and run `python -m scripts.seed_database --reset`.
 5. For rollback after a release, check out the last reviewer-approved tag or commit and rebuild a disposable database from its schema and seed; back up any database containing non-synthetic changes before replacing it.
