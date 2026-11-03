@@ -211,3 +211,117 @@ python -m tests.test_complaint_repository
 ```
 
 Repository tests use the SQLite database configured through DB_TEST_PATH, keeping test operations separate from the main database configured through DB_PATH. Tests that modify data should use disposable test fixtures to ensure repeatability.
+
+
+---
+
+## Week 3 — FastAPI Complaint API
+
+### Overview
+
+The Week 3 implementation introduces a REST API built with FastAPI to manage banking complaints, customers, accounts, and complaint status history.
+
+The application follows a layered architecture:
+
+**API Routers → Service Layer → Repository Layer → SQLite Database**
+
+FastAPI handles HTTP requests, Pydantic validates request data, the service layer implements business rules, and SQLAlchemy repositories manage database persistence.
+
+### Setup
+
+From the project root, create and activate a Python virtual environment.
+
+Install the project dependencies:
+
+```bash
+python -m pip install -r requirements.txt
+```
+
+Configure the required environment variables using `.env.example` as a reference.
+
+For detailed database setup instructions, see the [Setup Guide](docs/setup/README_setup.md).
+
+### Running the API
+
+Start the FastAPI development server from the project root:
+
+```bash
+python -m uvicorn src.main:app --reload
+```
+
+The API is available by default at:
+
+- `http://127.0.0.1:8000`
+- Swagger UI: `http://127.0.0.1:8000/docs`
+- OpenAPI JSON: `http://127.0.0.1:8000/openapi.json`
+
+### Available API Resources
+
+| Resource | Endpoint | Description |
+|---|---|---|
+| Complaints | `POST /complaints` | Create a complaint |
+| Complaints | `GET /complaints` | Retrieve complaints |
+| Complaints | `GET /complaints/{complaint_id}` | Retrieve a specific complaint |
+| Complaints | `PATCH /complaints/{complaint_id}/status` | Update complaint status |
+| Customers | `/customers` | Access customer information |
+| Accounts | `/accounts` | Access account information |
+| Events | `GET /events` | Retrieve complaint status history |
+| Health | `/health`, `/health/live`, `/health/ready` | Application health checks |
+
+The complete API contract is available in [openapi.json](openapi.json).
+
+### Testing
+
+The project uses pytest for unit and integration testing.
+
+Run unit tests:
+
+```bash
+python -m pytest tests/unit -v
+```
+
+Run integration tests:
+
+```bash
+python -m pytest tests/integration -v
+```
+
+Run the complete test suite:
+
+```bash
+python -m pytest tests/unit tests/integration -v
+```
+
+**Week 3 release validation results:**
+
+- Unit tests: 31 passed
+- Integration tests: 13 passed
+- Total: 44 passed
+
+Integration tests use a temporary SQLite database to isolate test operations.
+
+### Error Handling and Logging
+
+The API implements standardized error responses using `AppError` and structured request logging.
+
+Error responses include an error code, a safe message, and a correlation ID for traceability.
+
+The logging middleware records request operations, outcomes, processing duration, and correlation IDs.
+
+### Week 3 Release Evidence
+
+- [Architecture Diagram](docs/architecture/week3_architecture.md)
+- [End-to-End Test Report](docs/evidence/week3_release/end_to_end_report.md)
+- [Unit Test Report](docs/evidence/week3_release/unit_test_report.txt)
+- [Integration Test Report](docs/evidence/week3_release/integration_test_report.txt)
+- [Error Handling and Logging Evidence](docs/evidence/week3_release/error_logging_evidence.md)
+- [Detailed Logging Test Output](docs/evidence/week3_release/error_logging_test_output.txt)
+- [OpenAPI Specification](openapi.json)
+
+### Known Limitations
+
+The current API does not enforce authentication or role-based authorization.
+
+This limitation was identified during the Week 3 code review and requires remediation or an explicitly approved deferral before the application is deployed with real customer data.
+
+The Week 3 release serves as the API baseline for the Week 4 RAG implementation.
