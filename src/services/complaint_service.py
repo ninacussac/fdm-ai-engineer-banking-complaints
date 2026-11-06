@@ -19,6 +19,10 @@ class ComplaintService:
             #Verify it is one of the customer's
             if account.customer_id!=complaint.customer_id:
                 raise ValueError(f"Account {complaint.account_id} does not belong to customer {complaint.customer_id}")
+
+            if complaint.complaint_text is None :
+                raise ValueError((f"Complaint {complaint.complaint_id} must have a complaint text"))
+            
         return self.complaint_repository.create(db,complaint)
 
     def get_complaints(self,db):

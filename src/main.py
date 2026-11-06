@@ -11,7 +11,6 @@ from src.api.complaint_status_event_router import router as complaint_status_eve
 from src.api.routers.health import router as health_router
 from src.data.connection import engine
 from src.data.base import Base
-from src.models import models
 from src.api.error_handlers import AppError, app_error_handler, validation_error_handler
 from fastapi.exceptions import RequestValidationError
 from src.logging_config import log_request
