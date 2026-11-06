@@ -1,0 +1,53 @@
+============================= test session starts =============================
+platform win32 -- Python 3.12.10, pytest-9.2.0, pluggy-1.7.0 -- C:\Users\ninac\Documents\FDM\Projet_bank_assistant\fdm-ai-engineer-banking-complaints\venv\Scripts\python.exe
+cachedir: .pytest_cache
+rootdir: C:\Users\ninac\Documents\FDM\Projet_bank_assistant\fdm-ai-engineer-banking-complaints
+plugins: anyio-4.15.1, cov-7.1.0
+collecting ... collected 8 items
+
+tests/integration/test_complaint_api.py::test_create_complaint 
+-------------------------------- live log call --------------------------------
+INFO     banking_api:logging_config.py:24 {"timestamp": "2026-11-03T19:55:51.808562+00:00", "level": "INFO", "correlation_id": "0d410bc4-c91f-4297-ad00-9835de4cfe21", "operation": "POST /complaints", "outcome": "success", "duration_ms": 40.92}
+INFO     httpx2:_client.py:1084 HTTP Request: POST http://testserver/complaints "HTTP/1.1 201 Created"
+PASSED                                                                   [ 12%]
+tests/integration/test_complaint_api.py::test_valid_complaint_status_update 
+-------------------------------- live log call --------------------------------
+INFO     banking_api:logging_config.py:24 {"timestamp": "2026-11-03T19:55:51.934816+00:00", "level": "INFO", "correlation_id": "75e87847-818f-4784-98f5-24a47a518043", "operation": "POST /complaints", "outcome": "success", "duration_ms": 28.4}
+INFO     httpx2:_client.py:1084 HTTP Request: POST http://testserver/complaints "HTTP/1.1 201 Created"
+INFO     banking_api:logging_config.py:24 {"timestamp": "2026-11-03T19:55:51.960425+00:00", "level": "INFO", "correlation_id": "45c49037-8fc5-4b10-aa1f-b4dd255b3e8c", "operation": "PATCH /complaints/{complaint_id}/status", "outcome": "success", "duration_ms": 19.04}
+INFO     httpx2:_client.py:1084 HTTP Request: PATCH http://testserver/complaints/CMP001/status "HTTP/1.1 200 OK"
+PASSED                                                                   [ 25%]
+tests/integration/test_complaint_api.py::test_create_complaint_with_missing_priority 
+-------------------------------- live log call --------------------------------
+ERROR    banking_api:logging_config.py:26 {"timestamp": "2026-11-03T19:55:52.063687+00:00", "level": "ERROR", "correlation_id": "3be31762-7c37-4e05-b745-1469cb4777c1", "operation": "POST /complaints", "outcome": "error", "duration_ms": 3.68}
+INFO     httpx2:_client.py:1084 HTTP Request: POST http://testserver/complaints "HTTP/1.1 422 Unprocessable Content"
+PASSED                                                                   [ 37%]
+tests/integration/test_complaint_api.py::test_invalid_complaint_status_update 
+-------------------------------- live log call --------------------------------
+INFO     banking_api:logging_config.py:24 {"timestamp": "2026-11-03T19:55:52.176164+00:00", "level": "INFO", "correlation_id": "f9347705-cc74-4fe5-8620-084903d30665", "operation": "POST /complaints", "outcome": "success", "duration_ms": 30.95}
+INFO     httpx2:_client.py:1084 HTTP Request: POST http://testserver/complaints "HTTP/1.1 201 Created"
+ERROR    banking_api:logging_config.py:26 {"timestamp": "2026-11-03T19:55:52.194570+00:00", "level": "ERROR", "correlation_id": "91175ce7-fca8-4290-a2bc-f2524746c277", "operation": "PATCH /complaints/{complaint_id}/status", "outcome": "error", "duration_ms": 5.62}
+INFO     httpx2:_client.py:1084 HTTP Request: PATCH http://testserver/complaints/CMP001/status "HTTP/1.1 409 Conflict"
+PASSED                                                                   [ 50%]
+tests/integration/test_complaint_api.py::test_database_unavailable 
+-------------------------------- live log call --------------------------------
+ERROR    banking_api:logging_config.py:26 {"timestamp": "2026-11-03T19:55:52.304654+00:00", "level": "ERROR", "correlation_id": "2016caf5-8e2d-451e-9b25-cf61f0796d95", "operation": "POST /complaints", "outcome": "error", "duration_ms": 5.39}
+INFO     httpx2:_client.py:1084 HTTP Request: POST http://testserver/complaints "HTTP/1.1 503 Service Unavailable"
+PASSED                                                                   [ 62%]
+tests/integration/test_complaint_api.py::test_rollback_when_status_event_fails 
+-------------------------------- live log call --------------------------------
+ERROR    banking_api:logging_config.py:26 {"timestamp": "2026-11-03T19:55:52.419405+00:00", "level": "ERROR", "correlation_id": "305a5618-6912-4134-ae28-93c545761813", "operation": "POST /complaints", "outcome": "error", "duration_ms": 19.76}
+INFO     httpx2:_client.py:1084 HTTP Request: POST http://testserver/complaints "HTTP/1.1 500 Internal Server Error"
+PASSED                                                                   [ 75%]
+tests/integration/test_complaint_api.py::test_missing_complaint_has_correlation_id 
+-------------------------------- live log call --------------------------------
+ERROR    banking_api:logging_config.py:26 {"timestamp": "2026-11-03T19:55:52.528575+00:00", "level": "ERROR", "correlation_id": "64ec834f-3f8f-481d-a023-10a23eb0b024", "operation": "GET /complaints/{complaint_id}", "outcome": "error", "duration_ms": 10.43}
+INFO     httpx2:_client.py:1084 HTTP Request: GET http://testserver/complaints/CMP9999 "HTTP/1.1 404 Not Found"
+PASSED                                                                   [ 87%]
+tests/integration/test_complaint_api.py::test_create_complaint_with_unknown_customer 
+-------------------------------- live log call --------------------------------
+ERROR    banking_api:logging_config.py:26 {"timestamp": "2026-11-03T19:55:52.641338+00:00", "level": "ERROR", "correlation_id": "7955e20b-440e-416e-91c0-ce2e669dd997", "operation": "POST /complaints", "outcome": "error", "duration_ms": 9.64}
+INFO     httpx2:_client.py:1084 HTTP Request: POST http://testserver/complaints "HTTP/1.1 422 Unprocessable Content"
+PASSED                                                                   [100%]
+
+============================== 8 passed in 1.01s ==============================

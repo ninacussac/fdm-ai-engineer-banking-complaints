@@ -1,0 +1,40 @@
+============================= test session starts =============================
+platform win32 -- Python 3.12.10, pytest-9.2.0, pluggy-1.7.0 -- C:\Users\ninac\Documents\FDM\Projet_bank_assistant\fdm-ai-engineer-banking-complaints\venv\Scripts\python.exe
+cachedir: .pytest_cache
+rootdir: C:\Users\ninac\Documents\FDM\Projet_bank_assistant\fdm-ai-engineer-banking-complaints
+plugins: anyio-4.15.1, cov-7.1.0
+collecting ... collected 31 items
+
+tests/unit/test_complaint_domain.py::test_valid_status_transition[OPEN-IN_PROGRESS] PASSED [  3%]
+tests/unit/test_complaint_domain.py::test_valid_status_transition[IN_PROGRESS-UNDER_REVIEW] PASSED [  6%]
+tests/unit/test_complaint_domain.py::test_valid_status_transition[UNDER_REVIEW-CLOSED] PASSED [  9%]
+tests/unit/test_complaint_domain.py::test_invalid_status_transition[OPEN-CLOSED] PASSED [ 12%]
+tests/unit/test_complaint_domain.py::test_invalid_status_transition[OPEN-UNDER_REVIEW] PASSED [ 16%]
+tests/unit/test_complaint_domain.py::test_invalid_status_transition[IN_PROGRESS-OPEN] PASSED [ 19%]
+tests/unit/test_complaint_domain.py::test_invalid_status_transition[CLOSED-OPEN] PASSED [ 22%]
+tests/unit/test_complaint_domain.py::test_invalid_complaint_fields[status-INVALID] PASSED [ 25%]
+tests/unit/test_complaint_domain.py::test_invalid_complaint_fields[category-Unknown] PASSED [ 29%]
+tests/unit/test_complaint_domain.py::test_invalid_complaint_fields[priority-Urgent] PASSED [ 32%]
+tests/unit/test_complaint_domain.py::test_complaint_accepts_no_priority PASSED [ 35%]
+tests/unit/test_complaint_schema.py::test_missing_required_field[customer_id] PASSED [ 38%]
+tests/unit/test_complaint_schema.py::test_missing_required_field[channel] PASSED [ 41%]
+tests/unit/test_complaint_schema.py::test_missing_required_field[category] PASSED [ 45%]
+tests/unit/test_complaint_schema.py::test_missing_required_field[complaint_text] PASSED [ 48%]
+tests/unit/test_complaint_schema.py::test_missing_required_field[status] PASSED [ 51%]
+tests/unit/test_complaint_schema.py::test_missing_required_field[priority] PASSED [ 54%]
+tests/unit/test_complaint_schema.py::test_optionnal_fields_can_be_omitted PASSED [ 58%]
+tests/unit/test_complaint_service.py::test_create_complaint_with_existing_customer PASSED [ 61%]
+tests/unit/test_complaint_service.py::test_create_complaint_with_missing_customer PASSED [ 64%]
+tests/unit/test_complaint_service.py::test_create_complaint_with_missing_account PASSED [ 67%]
+tests/unit/test_complaint_service.py::test_create_complaint_with_account_from_another_customer PASSED [ 70%]
+tests/unit/test_complaint_service.py::test_create_complaint_with_valid_account PASSED [ 74%]
+tests/unit/test_complaint_service.py::test_get_existing_complaint PASSED [ 77%]
+tests/unit/test_complaint_service.py::test_get_missing_complaint PASSED  [ 80%]
+tests/unit/test_complaint_service.py::test_get_all_complaint_by_existing_client PASSED [ 83%]
+tests/unit/test_complaint_service.py::test_get_complaints_missing_customer PASSED [ 87%]
+tests/unit/test_complaint_service.py::test_change_status_of_existing_complaint PASSED [ 90%]
+tests/unit/test_complaint_service.py::test_invalid_change_status_of_existing_complaint PASSED [ 93%]
+tests/unit/test_complaint_service.py::test_change_status_of_missing_complaint PASSED [ 96%]
+tests/unit/test_complaint_service.py::test_get_all_complaints PASSED     [100%]
+
+============================= 31 passed in 0.20s ==============================
