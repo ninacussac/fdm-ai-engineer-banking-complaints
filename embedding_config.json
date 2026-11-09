@@ -1,0 +1,7 @@
+{
+  "provider": "google",
+  "embedding_model": "gemini-embedding-2",
+  "dimensions": 3072,
+  "batch_size": 32,
+  "normalize": true
+}
