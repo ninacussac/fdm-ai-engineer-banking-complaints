@@ -1,0 +1,11 @@
+{
+    "chunk_count": 208,
+    "vector_count": 208,
+    "dimensions": 3072,
+    "invalid_dimensions": 0,
+    "missing_metadata": 0,
+    "duplicate_ids": 0,
+    "missing_vectors": 0,
+    "unexpected_vectors": 0,
+    "status": "PASS"
+}
