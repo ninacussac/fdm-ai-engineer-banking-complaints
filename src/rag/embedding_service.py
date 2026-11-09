@@ -4,7 +4,7 @@ from google import genai
 from google.genai import types
 import json
 import time
-from vector_store import store_embeddings, count_vectors, get_stored_ids
+from src.rag.vector_store import store_embeddings, count_vectors, get_stored_ids
 # Load environment variables
 load_dotenv()
 
@@ -22,6 +22,14 @@ def load_chunks(file_path):
             chunks.append(json.loads(line))
 
     return chunks
+
+def get_gemini_embedding(text):
+    response = client.models.embed_content(
+        model=EMBEDDING_MODEL,
+        contents=text
+    )
+
+    return response.embeddings[0].values
 
 def embed_batch(chunks):
     # creer les batch pour que cela renvoie bien 32

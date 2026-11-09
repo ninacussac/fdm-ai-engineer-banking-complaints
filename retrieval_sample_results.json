@@ -1,0 +1,200 @@
+[
+    {
+        "case_id": "RET-001",
+        "query": "What cases need immediate escalation?",
+        "filters": {
+            "access_label": "Restricted"
+        },
+        "expected_source_ids": [
+            "KB-002"
+        ],
+        "retrieved_source_ids": [
+            "KB-002",
+            "KB-002",
+            "KB-002",
+            "KB-002",
+            "KB-002"
+        ],
+        "hit_at_5": true,
+        "results": [
+            {
+                "chunk_id": "KB-002#section#0005#structure#0001",
+                "text": "Trigger | Specialist route | Immediate constraints | Evidence to capture\nUnauthorized transaction, stolen card, identity compromise | Fraud specialist | Do not promise reimbursement or disclose sensitive fraud logic. | Transaction identifiers, dates, amount, channel and customer statement.\nPossible personal-data exposure | Privacy / compliance reviewer | Limit disclosure and preserve incident evidence. | Information involved, discovery time, recipients and actions taken.",
+                "score": 0.7357064485549927,
+                "metadata": {
+                    "document_type": "Policy",
+                    "status": "Approved",
+                    "chunk_id": "KB-002#section#0005#structure#0001",
+                    "effective_date": "2026-02-15",
+                    "section_title": "4. Specialist Escalation Triggers",
+                    "source_id": "KB-002",
+                    "effective_version": "2.1",
+                    "access_label": "Restricted"
+                },
+                "rerank_score": 1
+            },
+            {
+                "chunk_id": "KB-002#section#0005#structure#0002",
+                "text": "Legal notice or litigation threat | Legal / compliance reviewer | Do not draft final legal position. | Correspondence reference and relevant history.\nRegulator correspondence | Compliance reviewer | Preserve attachment/version and audit trail. | Regulator, date, reference and complaint link.\nAccessibility barrier or accommodation request | Responsible service/human reviewer | Preserve request exactly; do not infer condition. | Requested channel or accommodation and impact.",
+                "score": 0.7275166511535645,
+                "metadata": {
+                    "access_label": "Restricted",
+                    "effective_date": "2026-02-15",
+                    "chunk_id": "KB-002#section#0005#structure#0002",
+                    "section_title": "4. Specialist Escalation Triggers",
+                    "status": "Approved",
+                    "effective_version": "2.1",
+                    "document_type": "Policy",
+                    "source_id": "KB-002"
+                },
+                "rerank_score": 0
+            },
+            {
+                "chunk_id": "KB-002#section#0004#structure#0002",
+                "text": "CAD 1,000.01–10,000.00 | Supervisor approval before communication or action. | Evidence, calculation, customer impact and precedent/policy. | Pending Approval state.\nAbove CAD 10,000.00 | Supervisor approval plus senior escalation. | Expanded rationale, risk and specialist input where applicable. | No action until required decisions recorded.\nAmount missing or uncertain | Clarification or human review. | Missing-information note. | No estimated amount.",
+                "score": 0.7189078330993652,
+                "metadata": {
+                    "source_id": "KB-002",
+                    "status": "Approved",
+                    "access_label": "Restricted",
+                    "document_type": "Policy",
+                    "chunk_id": "KB-002#section#0004#structure#0002",
+                    "effective_version": "2.1",
+                    "effective_date": "2026-02-15",
+                    "section_title": "3. Financial Redress Thresholds"
+                },
+                "rerank_score": 0
+            },
+            {
+                "chunk_id": "KB-002#section#0008#structure#0002",
+                "text": "Analyst proposes CAD 10,000.00 | Supervisor approval; not above senior threshold. | Automatically adding senior escalation.\nAnalyst proposes CAD 10,000.01 | Supervisor plus senior escalation. | Using only one approval.\nCustomer threatens regulator and asks for CAD 50 | Compliance route applies despite low amount. | Using amount as sole escalation factor.\nOld approval for CAD 500; proposal changed to CAD 1,500 | New supervisor approval required. | Reusing stale approval.",
+                "score": 0.7162758708000183,
+                "metadata": {
+                    "document_type": "Policy",
+                    "section_title": "7. Boundary Examples",
+                    "effective_date": "2026-02-15",
+                    "source_id": "KB-002",
+                    "effective_version": "2.1",
+                    "chunk_id": "KB-002#section#0008#structure#0002",
+                    "status": "Approved",
+                    "access_label": "Restricted"
+                },
+                "rerank_score": 0
+            },
+            {
+                "chunk_id": "KB-002#section#0005#structure#0003",
+                "text": "Potential vulnerability expressly described | Human reviewer | Do not diagnose or profile. | Exact customer statement and service impact.\nConflicting current policies | Policy owner / compliance | Surface both sources; no automated resolution. | Source IDs, versions and conflicting passages.",
+                "score": 0.7150975465774536,
+                "metadata": {
+                    "section_title": "4. Specialist Escalation Triggers",
+                    "access_label": "Restricted",
+                    "status": "Approved",
+                    "document_type": "Policy",
+                    "effective_date": "2026-02-15",
+                    "effective_version": "2.1",
+                    "source_id": "KB-002",
+                    "chunk_id": "KB-002#section#0005#structure#0003"
+                },
+                "rerank_score": 0
+            }
+        ]
+    },
+    {
+        "case_id": "RET-002",
+        "query": "How should a disputed fee be investigated?",
+        "filters": {},
+        "expected_source_ids": [
+            "KB-003"
+        ],
+        "retrieved_source_ids": [
+            "KB-003",
+            "KB-003",
+            "KB-003",
+            "KB-010",
+            "KB-003"
+        ],
+        "hit_at_5": true,
+        "results": [
+            {
+                "chunk_id": "KB-003#section#0004#structure#0001",
+                "text": "• Validate identity before customer-specific retrieval.\n• Retrieve account/product and relevant transaction/fee history.\n• Identify the applicable current product terms or fee guidance.\n• Compare expected fee conditions with operational evidence.\n• Document missing evidence and do not infer product eligibility.\n• Prepare finding and options; do not promise redress.",
+                "score": 0.8167812824249268,
+                "metadata": {
+                    "section_title": "3. Investigation Sequence",
+                    "effective_date": "2026-03-01",
+                    "source_id": "KB-003",
+                    "status": "Approved",
+                    "document_type": "Playbook",
+                    "access_label": "Internal",
+                    "effective_version": "2.0",
+                    "chunk_id": "KB-003#section#0004#structure#0001"
+                },
+                "rerank_score": 1
+            },
+            {
+                "chunk_id": "KB-003#section#0005#structure#0001",
+                "text": "• Valid disclosed fee applied as designed.\n• Duplicate or repeated fee.\n• Incorrect product or account configuration.\n• Fee triggered by customer/account event.\n• Service error or delayed correction.\n• Outdated or unclear communication.\n• Insufficient evidence requiring clarification.",
+                "score": 0.8085287809371948,
+                "metadata": {
+                    "source_id": "KB-003",
+                    "chunk_id": "KB-003#section#0005#structure#0001",
+                    "section_title": "4. Common Root Causes",
+                    "effective_version": "2.0",
+                    "document_type": "Playbook",
+                    "access_label": "Internal",
+                    "status": "Approved",
+                    "effective_date": "2026-03-01"
+                },
+                "rerank_score": 1
+            },
+            {
+                "chunk_id": "KB-003#section#0009#structure#0001",
+                "text": "Known facts: Two identical monthly fees posted on the same day.\nRequired handling:\n• Retrieve fee records and product context.\n• Confirm duplication rather than assuming.\n• Prepare correction recommendation.\n• Apply approvals if additional compensation proposed.\nExpected outcome: Evidence-backed recommendation with citations.\nApplicable controls: BR-006, BR-008, BR-023",
+                "score": 0.7755731344223022,
+                "metadata": {
+                    "effective_date": "2026-03-01",
+                    "section_title": "FEE-01 — Duplicate monthly fee",
+                    "status": "Approved",
+                    "access_label": "Internal",
+                    "effective_version": "2.0",
+                    "source_id": "KB-003",
+                    "document_type": "Playbook",
+                    "chunk_id": "KB-003#section#0009#structure#0001"
+                },
+                "rerank_score": 1
+            },
+            {
+                "chunk_id": "KB-010#section#0009#structure#0001",
+                "text": "Known facts: Category: Fees and Charges. Narrative did not identify fee or amount.\nRequired handling:\n• Validate identity and scope.\n• Retrieve structured records.\n• Retrieve current policy evidence.\n• Document limitations and approval route.\nExpected outcome: Clarification requested; no estimate or refund promise.\nApplicable controls: Case remained open.",
+                "score": 0.7747493386268616,
+                "metadata": {
+                    "effective_version": "1.0",
+                    "document_type": "Casebook",
+                    "section_title": "HCASE-007 — Fee complaint with missing amount",
+                    "chunk_id": "KB-010#section#0009#structure#0001",
+                    "access_label": "Internal",
+                    "effective_date": "2026-06-15",
+                    "status": "Approved",
+                    "source_id": "KB-010"
+                },
+                "rerank_score": 1
+            },
+            {
+                "chunk_id": "KB-003#section#0002#structure#0001",
+                "text": "Covers monthly account fees, transaction/service fees, non-sufficient-funds fees, card fees, foreign-exchange/service charges, duplicate charges, interest-calculation concerns and fee-disclosure complaints.",
+                "score": 0.7798299193382263,
+                "metadata": {
+                    "effective_version": "2.0",
+                    "access_label": "Internal",
+                    "chunk_id": "KB-003#section#0002#structure#0001",
+                    "source_id": "KB-003",
+                    "document_type": "Playbook",
+                    "effective_date": "2026-03-01",
+                    "status": "Approved",
+                    "section_title": "1. Scope and Complaint Types"
+                },
+                "rerank_score": 0
+            }
+        ]
+    }
+]

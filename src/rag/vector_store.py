@@ -27,7 +27,12 @@ def store_embeddings(chunks):
             {
                 "chunk_id": chunk["chunk_id"],
                 "source_id": chunk["source_id"],
-                "section_title": chunk["section_title"]
+                "section_title": chunk["section_title"],
+                "document_type": chunk["document_type"],
+                "effective_version": chunk["version"],
+                "effective_date": chunk["effective_date"],
+                "access_label": chunk["access_label"],
+                "status": chunk["status"]
             }
             for chunk in chunks
         ]
@@ -39,3 +44,10 @@ def count_vectors():
 def get_all_vectors():
     return collection.get(
         include=["embeddings", "metadatas"])
+
+def search_vectors(query_embedding, top_k=3, filters=None):
+    return collection.query(
+        query_embeddings=[query_embedding],
+        n_results=top_k,
+        where=filters
+    )
