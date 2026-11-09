@@ -27,6 +27,7 @@ def store_embeddings(chunks):
             {
                 "chunk_id": chunk["chunk_id"],
                 "source_id": chunk["source_id"],
+                "title": chunk["title"],
                 "section_title": chunk["section_title"],
                 "document_type": chunk["document_type"],
                 "effective_version": chunk["version"],

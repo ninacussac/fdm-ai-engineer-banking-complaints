@@ -1,0 +1,104 @@
+import os
+import json
+from dotenv import load_dotenv
+from google import genai
+from src.rag.retrieval_service import retrieve
+from src.rag.citations import format_citations
+
+load_dotenv()
+
+client = genai.Client(api_key=os.getenv("GOOGLE_API_KEY"))
+
+def build_prompt(question, evidence):
+    prompt = f"""
+You are a banking policy assistant.
+
+Answer the question using ONLY the retrieved evidence below.
+
+Rules:
+1. Do not invent information.
+2. Keep the answer concise.
+3. If evidence is insufficient, say you cannot answer.
+4. If only part of the question is supported, answer that part
+   and explain what information is missing.
+5. Cite only chunk IDs present in the retrieved evidence.
+6. Return valid JSON with exactly these fields:
+   answer, supported, citations, limitations.
+
+Use this JSON format:
+{{
+    "answer": "Your answer",
+    "supported": true,
+    "citations": ["chunk_id"],
+    "limitations": []
+}}
+
+Question:
+{question}
+
+Retrieved evidence:
+{evidence}
+"""
+    return prompt
+
+def generate_answer(question, evidence):
+    prompt = build_prompt(question, evidence)
+
+    response = client.models.generate_content(
+        model=os.getenv("GENERATION_MODEL"),
+        contents=prompt,
+        config={"response_mime_type": "application/json"}
+    )
+
+    return json.loads(response.text)
+
+MIN_SIMILARITY = 0.70
+def answer_question(question):
+    # Retrieve relevant chunks
+    chunks = retrieve(question, top_k=5)
+    # Keep only sufficiently relevant chunks
+    chunks = [
+        chunk for chunk in chunks
+        if chunk["score"] >= MIN_SIMILARITY
+    ]
+    # Return a safe response if no evidence is found
+    if not chunks:
+        return {
+            "answer": "I could not find sufficient evidence.",
+            "supported": False,
+            "citations": [],
+            "limitations": ["No supporting policy evidence found."]
+        }
+
+    # Prepare evidence for Gemini
+    evidence = ""
+
+    for chunk in chunks:
+        evidence += f"""
+Chunk ID: {chunk["chunk_id"]}
+Source: {chunk["metadata"]["source_id"]}
+Section: {chunk["metadata"]["section_title"]}
+Text: {chunk["text"]}
+"""
+
+    # Generate the answer
+    result = generate_answer(question, evidence)
+
+    # Validate and format citations
+    result["citations"] = format_citations(
+        result["citations"],
+        chunks
+    )
+
+    return result
+
+
+if __name__ == "__main__":
+    question = (
+        "When does proposed compensation require supervisor approval, "
+        "and what is the current weather in Reykjavik?"
+    )
+
+    result = answer_question(question)
+
+    print(json.dumps(result, indent=4))

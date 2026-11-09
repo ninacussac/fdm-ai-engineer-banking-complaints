@@ -7,6 +7,7 @@ from src.config import settings
 from src.api.complaint_router import router as complaint_router
 from src.api.customer_router import router as customer_router
 from src.api.account_router import router as account_router
+from src.api.policy_router import router as policy_router
 from src.api.complaint_status_event_router import router as complaint_status_event_router
 from src.api.routers.health import router as health_router
 from src.data.connection import engine
@@ -72,6 +73,7 @@ app.include_router(customer_router)
 app.include_router(account_router)
 app.include_router(complaint_status_event_router)
 app.include_router(health_router)
+app.include_router(policy_router)
 
 # create tables with metadada, Base.Metadata
 

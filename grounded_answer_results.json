@@ -1,0 +1,56 @@
+[
+    {
+        "case_id": "GA-001",
+        "question": "When does proposed compensation require supervisor approval?",
+        "expected_support_level": "supported",
+        "expected_source_id": "KB-002",
+        "response": {
+            "answer": "Supervisor approval is required when proposed compensation exceeds CAD 1,000 or when another applicable trigger requires review.",
+            "supported": true,
+            "citations": [
+                {
+                    "document": "Complaint Operations Knowledge Articles and FAQ",
+                    "section": "FAQ-005 — When is supervisor approval required?",
+                    "version": "1.0",
+                    "source_id": "KB-009"
+                }
+            ],
+            "limitations": []
+        }
+    },
+    {
+        "case_id": "GA-002",
+        "question": "What is the current weather in Reykjavik?",
+        "expected_support_level": "unsupported",
+        "expected_source_id": null,
+        "response": {
+            "answer": "I could not find sufficient evidence.",
+            "supported": false,
+            "citations": [],
+            "limitations": [
+                "No supporting policy evidence found."
+            ]
+        }
+    },
+    {
+        "case_id": "GA-003",
+        "question": "When does proposed compensation require supervisor approval, and what is the current weather in Reykjavik?",
+        "expected_support_level": "partial",
+        "expected_source_id": "KB-002",
+        "response": {
+            "answer": "Proposed compensation requires supervisor approval when it exceeds CAD 1,000 or when another applicable trigger requires review. I cannot answer the question regarding the current weather in Reykjavik as it is not provided in the evidence.",
+            "supported": true,
+            "citations": [
+                {
+                    "document": "Complaint Operations Knowledge Articles and FAQ",
+                    "section": "FAQ-005 — When is supervisor approval required?",
+                    "version": "1.0",
+                    "source_id": "KB-009"
+                }
+            ],
+            "limitations": [
+                "The evidence does not contain information about the weather in Reykjavik."
+            ]
+        }
+    }
+]
