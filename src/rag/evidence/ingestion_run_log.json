@@ -1,0 +1,16 @@
+{
+    "run_time": "2026-11-06T23:07:34.682778+00:00",
+    "accepted": 12,
+    "rejected": 2,
+    "warnings": 0,
+    "rejected_files": [
+        {
+            "source_id": "KB-001-OLD",
+            "reason": "Document status is Superseded, not Approved"
+        },
+        {
+            "path": "docs\\policies\\05_Manifests_and_Guides\\Knowledge_Base_Content_Map_and_Retrieval_Guide.docx",
+            "reason": "File not listed in manifest"
+        }
+    ]
+}

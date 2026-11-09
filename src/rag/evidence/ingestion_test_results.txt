@@ -1,0 +1,13 @@
+﻿============================= test session starts =============================
+platform win32 -- Python 3.12.10, pytest-9.2.0, pluggy-1.7.0 -- C:\Users\ninac\Documents\FDM\Projet_bank_assistant\fdm-ai-engineer-banking-complaints\venv\Scripts\python.exe
+cachedir: .pytest_cache
+rootdir: C:\Users\ninac\Documents\FDM\Projet_bank_assistant\fdm-ai-engineer-banking-complaints
+plugins: anyio-4.15.1, cov-7.1.0
+collecting ... collected 4 items
+
+tests/test_ingestion.py::test_valid_manifest PASSED                      [ 25%]
+tests/test_ingestion.py::test_unlisted_file PASSED                       [ 50%]
+tests/test_ingestion.py::test_duplicate_source_id PASSED                 [ 75%]
+tests/test_ingestion.py::test_missing_effective_date PASSED              [100%]
+
+============================== 4 passed in 0.19s ==============================
