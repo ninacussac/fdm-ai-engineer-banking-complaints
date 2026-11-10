@@ -1,0 +1,101 @@
+[
+    {
+        "case_id": "EV-001",
+        "question": "What must be recorded at complaint intake?",
+        "answer": "At complaint intake, you must record a unique complaint ID (or reference one), the received timestamp, the channel, the customer's narrative, any available customer ID, any optional account/product reference, and the explicitly requested outcome. Additionally, you must record any explicit requests regarding accessibility, language, or communication channels, as well as any attachments, correspondence, or transaction references using stable identifiers. If customer identity is unresolved, record the complaint but prevent customer-specific data retrieval until validation.",
+        "supported": true,
+        "citations": [
+            {
+                "document": "Enterprise Complaint Management Policy",
+                "section": "4. Intake Standard",
+                "version": "3.0",
+                "source_id": "KB-001"
+            }
+        ],
+        "limitations": []
+    },
+    {
+        "case_id": "EV-002",
+        "question": "When does proposed compensation require supervisor approval?",
+        "answer": "Supervisor approval is required when proposed compensation exceeds CAD 1,000 or when another applicable trigger requires review.",
+        "supported": true,
+        "citations": [
+            {
+                "document": "Complaint Operations Knowledge Articles and FAQ",
+                "section": "FAQ-005 — When is supervisor approval required?",
+                "version": "1.0",
+                "source_id": "KB-009"
+            }
+        ],
+        "limitations": []
+    },
+    {
+        "case_id": "EV-003",
+        "question": "What triggers immediate specialist escalation?",
+        "answer": "Immediate specialist escalation is triggered by unauthorized transactions, stolen cards, identity compromise, or possible personal-data exposure.",
+        "supported": true,
+        "citations": [
+            {
+                "document": "Escalation, Approval and Decision Authority Standard",
+                "section": "4. Specialist Escalation Triggers",
+                "version": "2.1",
+                "source_id": "KB-002"
+            }
+        ],
+        "limitations": []
+    },
+    {
+        "case_id": "EV-004",
+        "question": "Can the assistant promise a fee refund?",
+        "answer": "No, the assistant cannot promise a refund. Policy dictates that the assistant must prepare findings and options rather than promising redress, and specifically notes that no refund promise should be made during the investigation or clarification process.",
+        "supported": true,
+        "citations": [
+            {
+                "document": "Historical Complaint Casebook",
+                "section": "HCASE-007 — Fee complaint with missing amount",
+                "version": "1.0",
+                "source_id": "KB-010"
+            },
+            {
+                "document": "Historical Complaint Casebook",
+                "section": "HCASE-017 — Fee complaint with missing amount",
+                "version": "1.0",
+                "source_id": "KB-010"
+            },
+            {
+                "document": "Fee, Charge and Interest Complaint Playbook",
+                "section": "3. Investigation Sequence",
+                "version": "2.0",
+                "source_id": "KB-003"
+            }
+        ],
+        "limitations": []
+    },
+    {
+        "case_id": "EV-005",
+        "question": "Can the assistant reset authentication secrets?",
+        "answer": "I cannot answer whether the assistant can reset authentication secrets because the provided evidence does not explicitly state the assistant's capabilities regarding resetting secrets.",
+        "supported": false,
+        "citations": [
+            {
+                "document": "Digital Banking and Account Access Operations Guide",
+                "section": "3. Standard Diagnostic Path",
+                "version": "2.0",
+                "source_id": "KB-004"
+            }
+        ],
+        "limitations": [
+            "The provided evidence outlines diagnostic steps but does not confirm if the assistant has the authorization or technical capability to perform a password or secret reset."
+        ]
+    },
+    {
+        "case_id": "EV-006",
+        "question": "What is the current weather in Reykjavik?",
+        "answer": "I could not find sufficient evidence.",
+        "supported": false,
+        "citations": [],
+        "limitations": [
+            "No supporting policy evidence found."
+        ]
+    }
+]
