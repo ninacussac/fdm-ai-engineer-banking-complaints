@@ -134,3 +134,78 @@ Reranking only reorders the retrieved candidates. It does not perform a new sear
 - ChromaDB persistent vector index
 - `src/rag/embedding_service.py`
 - `src/rag/vector_store.py`
+
+## FastAPI Policy Query Contract — Version 1.0
+
+**Endpoint:** `POST /policy/query`
+
+**Purpose:** Generate a grounded policy answer using retrieved banking policy evidence.
+
+### Request
+
+```json
+{
+  "question": "What triggers immediate specialist escalation?",
+  "document_type": "Policy",
+  "effective_version": "2.1",
+  "access_label": "Restricted"
+}
+```
+
+| Parameter | Type | Required | Description |
+|---|---|---|---|
+| `question` | `string` | Yes | Policy question; must not be empty |
+| `document_type` | `string \| null` | No | Filter by document type |
+| `effective_version` | `string \| null` | No | Filter by document version |
+| `access_label` | `string \| null` | No | Filter by access classification |
+
+All filters are optional. A request containing only `question` is valid.
+
+### Successful Response
+
+**HTTP 200**
+
+```json
+{
+  "answer": "Immediate specialist escalation is triggered by unauthorized transactions, stolen cards, identity compromise, or possible personal-data exposure.",
+  "supported": true,
+  "citations": [
+    {
+      "document": "Escalation, Approval and Decision Authority Standard",
+      "section": "4. Specialist Escalation Triggers",
+      "version": "2.1",
+      "source_id": "KB-002"
+    }
+  ],
+  "limitations": []
+}
+```
+
+### Response Fields
+
+| Field | Type | Description |
+|---|---|---|
+| `answer` | `string` | Generated answer or abstention message |
+| `supported` | `boolean` | Whether sufficient policy evidence supports the answer |
+| `citations` | `array` | References to supporting documents |
+| `limitations` | `array` | Missing information or limitations |
+
+### Error Handling
+
+| HTTP Status | Meaning |
+|---|---|
+| `400` | Invalid policy query detected by the service |
+| `422` | Request validation failed |
+| `503` | Policy answer service unavailable |
+
+### Sprint 3 Integration Notes
+
+- Sprint 3 tools should reuse this endpoint instead of rebuilding the RAG pipeline.
+- Filters are combined using logical AND.
+- The current API does not expose `top_k` or `rerank`; these remain internal retrieval parameters.
+- Access-label filtering is not an authorization mechanism. The server must enforce document access permissions before production use.
+- The API may return `supported=false` when evidence is insufficient.
+
+**Contract version:** 1.0
+
+**Release:** Week 4 — Sprint 2

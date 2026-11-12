@@ -1,0 +1,14 @@
+
+{
+  "answer": "Immediate specialist escalation is triggered by the following events: unauthorized transactions, stolen cards, identity compromise (requiring a fraud specialist), and possible personal-data exposure (requiring a privacy/compliance reviewer).",
+  "supported": true,
+  "citations": [
+    {
+      "document": "Escalation, Approval and Decision Authority Standard",
+      "section": "4. Specialist Escalation Triggers",
+      "version": "2.1",
+      "source_id": "KB-002"
+    }
+  ],
+  "limitations": []
+}

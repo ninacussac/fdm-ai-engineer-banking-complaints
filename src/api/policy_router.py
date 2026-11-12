@@ -10,12 +10,17 @@ router = APIRouter(prefix="/policy", tags=["Policy"])
 
 class PolicyQuery(BaseModel):
     question: str = Field(min_length=1)
+    document_type: str | None = None
+    effective_version: str | None = None
+    access_label: str | None = None
 
 
 @router.post("/query")
 def query_policy(request: PolicyQuery):
     try:
-        return answer_question(request.question)
+        return answer_question(request.question,document_type=request.document_type,
+                        effective_version=request.effective_version,
+                        access_label=request.access_label)
 
     except ValueError:
         raise AppError(

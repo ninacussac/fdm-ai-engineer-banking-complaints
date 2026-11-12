@@ -1,0 +1,10 @@
+{
+  "case_id": "EV-006",
+  "question": "What is the current weather in Reykjavik?",
+  "answer": "I could not find sufficient evidence.",
+  "supported": false,
+  "citations": [],
+  "limitations": [
+    "No supporting policy evidence found."
+  ]
+}

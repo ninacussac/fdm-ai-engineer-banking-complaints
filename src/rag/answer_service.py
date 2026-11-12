@@ -11,34 +11,34 @@ client = genai.Client(api_key=os.getenv("GOOGLE_API_KEY"))
 
 def build_prompt(question, evidence):
     prompt = f"""
-You are a banking policy assistant.
+    You are a banking policy assistant.
 
-Answer the question using ONLY the retrieved evidence below.
+    Answer the question using ONLY the retrieved evidence below.
 
-Rules:
-1. Do not invent information.
-2. Keep the answer concise.
-3. If evidence is insufficient, say you cannot answer.
-4. If only part of the question is supported, answer that part
-   and explain what information is missing.
-5. Cite only chunk IDs present in the retrieved evidence.
-6. Return valid JSON with exactly these fields:
-   answer, supported, citations, limitations.
+    Rules:
+    1. Do not invent information.
+    2. Keep the answer concise.
+    3. If evidence is insufficient, say you cannot answer.
+    4. If only part of the question is supported, answer that part
+    and explain what information is missing.
+    5. Cite only chunk IDs present in the retrieved evidence.
+    6. Return valid JSON with exactly these fields:
+    answer, supported, citations, limitations.
 
-Use this JSON format:
-{{
-    "answer": "Your answer",
-    "supported": true,
-    "citations": ["chunk_id"],
-    "limitations": []
-}}
+    Use this JSON format:
+    {{
+        "answer": "Your answer",
+        "supported": true,
+        "citations": ["chunk_id"],
+        "limitations": []
+    }}
 
-Question:
-{question}
+    Question:
+    {question}
 
-Retrieved evidence:
-{evidence}
-"""
+    Retrieved evidence:
+    {evidence}
+    """
     return prompt
 
 def generate_answer(question, evidence):
@@ -53,9 +53,9 @@ def generate_answer(question, evidence):
     return json.loads(response.text)
 
 MIN_SIMILARITY = 0.70
-def answer_question(question):
+def answer_question(question, document_type=None, effective_version=None, access_label=None):
     # Retrieve relevant chunks
-    chunks = retrieve(question, top_k=5)
+    chunks = retrieve(question, top_k=5,document_type=document_type, effective_version=effective_version, access_label=access_label)
     # Keep only sufficiently relevant chunks
     chunks = [
         chunk for chunk in chunks
@@ -75,11 +75,11 @@ def answer_question(question):
 
     for chunk in chunks:
         evidence += f"""
-Chunk ID: {chunk["chunk_id"]}
-Source: {chunk["metadata"]["source_id"]}
-Section: {chunk["metadata"]["section_title"]}
-Text: {chunk["text"]}
-"""
+        Chunk ID: {chunk["chunk_id"]}
+        Source: {chunk["metadata"]["source_id"]}
+        Section: {chunk["metadata"]["section_title"]}
+        Text: {chunk["text"]}
+        """
 
     # Generate the answer
     result = generate_answer(question, evidence)
@@ -91,14 +91,3 @@ Text: {chunk["text"]}
     )
 
     return result
-
-
-if __name__ == "__main__":
-    question = (
-        "When does proposed compensation require supervisor approval, "
-        "and what is the current weather in Reykjavik?"
-    )
-
-    result = answer_question(question)
-
-    print(json.dumps(result, indent=4))

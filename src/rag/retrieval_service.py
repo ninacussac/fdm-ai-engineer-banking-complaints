@@ -61,24 +61,6 @@ def rerank_results(query, results):
 
     for result in results:
         text_words = set(result["text"].lower().split())
-
         result["rerank_score"] = len(query_words & text_words)
 
-    return sorted(
-        results,
-        key=lambda result: result["rerank_score"],
-        reverse=True
-    )
-
-
-if __name__ == "__main__":
-    question = "When is supervisor approval required?"
-
-    results = retrieve(question, top_k=5, rerank=True)
-
-    for result in results:
-        print("Source:", result["metadata"]["source_id"])
-        print("Original score:", round(result["score"], 4))
-        print("Rerank score:", result["rerank_score"])
-        print("Text:", result["text"][:120])
-        print("------------------------")
+    return sorted(results,key=lambda result: result["rerank_score"], reverse=True)
