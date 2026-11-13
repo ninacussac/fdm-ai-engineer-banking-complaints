@@ -24,6 +24,7 @@ def build_prompt(question, evidence):
     5. Cite only chunk IDs present in the retrieved evidence.
     6. Return valid JSON with exactly these fields:
     answer, supported, citations, limitations.
+    7. Try to use as much relevant chunks as possible.
 
     Use this JSON format:
     {{
