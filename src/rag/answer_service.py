@@ -17,7 +17,7 @@ def build_prompt(question, evidence):
 
     Rules:
     1. Do not invent information.
-    2. Keep the answer concise.
+    2. Keep the answer concise. 
     3. If evidence is insufficient, say you cannot answer.
     4. If only part of the question is supported, answer that part
     and explain what information is missing.
