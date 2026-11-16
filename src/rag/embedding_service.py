@@ -1,6 +1,7 @@
 import os
 from dotenv import load_dotenv
 from google import genai
+from ollama import Client as OllamaClient
 from google.genai import types
 import json
 import time
@@ -11,8 +12,10 @@ load_dotenv()
 GOOGLE_API_KEY = os.getenv("GOOGLE_API_KEY")
 EMBEDDING_MODEL = os.getenv("EMBEDDING_MODEL")
 
-# Create Gemini client
+# Create Gemini and Ollama client
 client = genai.Client(api_key=GOOGLE_API_KEY)
+ollama_client = OllamaClient(host=os.getenv("OLLAMA_BASE_URL", "http://localhost:11434"))
+
 
 def load_chunks(file_path):
     chunks = []
@@ -31,22 +34,37 @@ def get_gemini_embedding(text):
 
     return response.embeddings[0].values
 
+#embeddings KB
+def get_ollama_embeddings(texts):
+        responses = ollama_client.embed(
+        model = os.getenv("OLLAMA_EMBEDDING_MODEL", "nomic-embed-text"),
+        input = texts
+    )
+        return responses.embeddings
+
 def embed_batch(chunks):
     # creer les batch pour que cela renvoie bien 32
     # differents embedding et pas juste un pour 32 chunks
-    contents=[
-        types.Content(parts=[types.Part(text=chunk["text"])])
-                      for chunk in chunks
-    ]
-    #pour chaque chunk cree un contenu compris par gemini
+    provider = os.getenv("EMBEDDING_PROVIDER", "gemini").lower()
+    if provider =="gemini":
+        contents=[
+            types.Content(parts=[types.Part(text=chunk["text"])])
+                        for chunk in chunks
+        ]
+        #pour chaque chunk cree un contenu compris par gemini
 
-    response = client.models.embed_content(
-        model = EMBEDDING_MODEL,
-        contents=contents
-    )
-    #item => type ContentEmbedding and item.value => numerical vector
-    embeddings = [item.values for item in response.embeddings]
-
+        response = client.models.embed_content(
+            model = EMBEDDING_MODEL,
+            contents=contents
+        )
+        #item => type ContentEmbedding and item.value => numerical vector
+        embeddings = [item.values for item in response.embeddings]
+    elif provider=="ollama":
+        texts = [chunk["text"] for chunk in chunks]
+        embeddings = get_ollama_embeddings(texts)
+    else:
+        raise ValueError(f"Unsupported embedding provider: {provider}")
+    
     if (len(embeddings)!=len(chunks)):
         raise ValueError("Embedding count does not match chunk count")
 
@@ -57,7 +75,7 @@ def embed_batch(chunks):
 def generate_embeddings(chunks, batch_size=32):
     # Skip chunks already stored in ChromaDB
     existing_ids = set(get_stored_ids())
-
+    provider = os.getenv("EMBEDDING_PROVIDER", "gemini").lower()
     remaining_chunks = [
         chunk for chunk in chunks
         if chunk["chunk_id"] not in existing_ids
@@ -92,13 +110,13 @@ def generate_embeddings(chunks, batch_size=32):
                 if attempt == 2:
                     raise
                 # limitation gemini 100 query/minute
-                if "429" in str(error):
+                if provider=="gemini" and "429" in str(error):
                     time.sleep(35)
                 else:
                     time.sleep(2)
 
         # Reduce the risk of reaching the API rate limit
-        if i + batch_size < len(remaining_chunks):
+        if (provider == "gemini" and i + batch_size < len(remaining_chunks)):
             time.sleep(35)
 
     print("Total vectors stored:", count_vectors())
@@ -113,3 +131,31 @@ if __name__ == "__main__":
 
     duration = time.time() - start
     print("Duration:", round(duration, 2), "seconds")
+
+#query
+def get_ollama_embedding(text):
+    response = ollama_client.embed(
+        model = os.getenv("OLLAMA_EMBEDDING_MODEL", "nomic-embed-text"),
+        input = text
+    )
+
+    return response.embeddings[0]
+
+#embeddings KB
+def get_ollama_embeddings(texts):
+        responses = ollama_client.embed(
+        model = os.getenv("OLLAMA_EMBEDDING_MODEL", "nomic-embed-text"),
+        input = texts
+    )
+        return responses.embeddings
+
+def get_embedding(text):
+    provider = os.getenv("EMBEDDING_PROVIDER", "gemini").lower()
+
+    if provider == "gemini":
+        return get_gemini_embedding(text)
+    if provider == "ollama":
+        return get_ollama_embedding(text)
+
+    raise ValueError(f"Unsupported embedding provider : {provider}")
+

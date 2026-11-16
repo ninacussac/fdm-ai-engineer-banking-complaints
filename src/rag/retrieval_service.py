@@ -1,4 +1,4 @@
-from src.rag.embedding_service import get_gemini_embedding
+from src.rag.embedding_service import get_embedding
 from src.rag.vector_store import search_vectors
 
 def retrieve(query, top_k=3, document_type=None, effective_version=None, access_label=None, rerank=False):
@@ -29,7 +29,7 @@ def retrieve(query, top_k=3, document_type=None, effective_version=None, access_
         where = {"$and": filters}
 
     # Convert the question into an embedding
-    query_embedding = get_gemini_embedding(query)
+    query_embedding = get_embedding(query)
 
     # Search ChromaDB
     try:

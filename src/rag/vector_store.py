@@ -1,7 +1,22 @@
 import chromadb
 import os
+from dotenv import load_dotenv
 
-CHROMA_PATH = os.getenv("CHROMA_PATH", "data/chroma_embedding")
+load_dotenv()
+
+EMBEDDING_PROVIDER = os.getenv("EMBEDDING_PROVIDER", "gemini").lower()
+
+if EMBEDDING_PROVIDER =="ollama":
+    CHROMA_PATH=os.getenv("OLLAMA_CHROMA_PATH", "data/chroma_ollama")
+    COLLECTION_NAME = "banking_policy_chunks_nomic"
+
+elif EMBEDDING_PROVIDER == "gemini":
+    CHROMA_PATH = os.getenv("CHROMA_PATH", "data/chroma_embedding")
+    COLLECTION_NAME = "banking_policy_chunks"
+else:
+    raise ValueError(f"Unsupported embedding supporter : {EMBEDDING_PROVIDER}")
+
+
 # Create persistent ChromaDB client
 chroma_client = chromadb.PersistentClient(
     path=CHROMA_PATH
@@ -9,7 +24,7 @@ chroma_client = chromadb.PersistentClient(
 
 # Create or retrieve collection
 collection = chroma_client.get_or_create_collection(
-    name="banking_policy_chunks",
+    name=COLLECTION_NAME,
     embedding_function=None,
     configuration={"hnsw": {"space": "cosine"}}
 )
