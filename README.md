@@ -1,5 +1,237 @@
 # Fdm-ai-engineer-banking-complaints
 AI-Powered Banking Complaint Assistant
+## Installation and Setup
+
+### 1. Clone the Repository
+
+```bash
+git clone <repository-url>
+cd fdm-ai-engineer-banking-complaints
+```
+
+### 2. Create a Virtual Environment
+
+The project uses Python 3.12.
+
+On Windows PowerShell:
+
+```powershell
+python -m venv venv
+.\venv\Scripts\Activate.ps1
+```
+
+### 3. Install Dependencies
+
+```powershell
+python -m pip install -r requirements.txt
+```
+
+### 4. Configure Environment Variables
+
+Copy the example configuration:
+
+```powershell
+Copy-Item .env.example .env
+```
+
+Open `.env` and replace `your_google_api_key_here` with a valid Google Gemini API key.
+
+The configuration includes:
+
+- `DB_PATH` and `DB_TEST_PATH`: SQLite database paths.
+- `DATABASE_URL`: SQLAlchemy database connection.
+- `GOOGLE_API_KEY`: Gemini API authentication.
+- `EMBEDDING_MODEL`: Model used to generate embeddings.
+- `GENERATION_MODEL`: Model used to generate grounded answers.
+- `CHROMA_PATH`: ChromaDB storage directory.
+
+Do not commit `.env` or share your API key.
+
+### 5. Verify the Installation
+
+Run the existing tests from the project root:
+
+```powershell
+python -m pytest tests/ -v
+```
+
+The Week 4 release preparation recorded 92 passing tests. Test results may change as the project evolves.
+
+## Running the API
+
+Start the FastAPI application from the project root:
+
+```powershell
+python -m uvicorn src.main:app --reload
+```
+
+The API runs locally at:
+
+`http://127.0.0.1:8000`
+
+Open the interactive API documentation:
+
+`http://127.0.0.1:8000/docs`
+
+The application includes complaint management endpoints and the policy knowledge service.
+
+The RAG endpoint is:
+
+`POST /policy/query`
+
+Example request:
+
+```json
+{
+  "question": "What triggers immediate specialist escalation?"
+}
+```
+
+The response contains the generated answer, a support indicator, citations and limitations.
+
+Stop the server using `Ctrl+C`.
+
+## RAG Document Ingestion
+
+The RAG pipeline processes approved banking policy documents and stores their embeddings in ChromaDB.
+
+### 1. Prepare Policy Documents
+
+The policy document corpus is provided separately from the Git repository.
+
+To run ingestion, obtain the approved Week 4 policy corpus through the authorized FDM distribution channel.
+
+Extract the files into `docs/policies/`, preserving the original folder structure.
+
+Ensure the manifest exists at:
+
+`docs/policies/05_Manifests_and_Guides/knowledge_base_manifest.csv`
+
+The manifest contains document metadata and relative paths required by the ingestion service.
+
+Documents marked as `Superseded` are excluded from ingestion. Documents not listed in the manifest are rejected.
+
+Do not commit Internal or Restricted policy documents unless explicitly authorized.
+
+### 2. Extract Documents
+
+From the project root, run:
+
+```powershell
+python -m src.rag.ingestion_service
+```
+
+This validates the manifest, extracts the DOCX content and generates:
+
+`data/processed/documents.jsonl`
+
+It also creates `ingestion_run_log.json`.
+
+### 3. Create Chunks
+
+```powershell
+python -m src.rag.chunking
+```
+
+This creates the baseline and structure-aware chunks.
+
+The selected chunks are saved to:
+
+`data/processed/chunks_selected.jsonl`
+
+### 4. Generate Embeddings and Populate ChromaDB
+
+```powershell
+python -m src.rag.embedding_service
+```
+
+This reads the selected chunks, generates embeddings using Gemini and stores them in ChromaDB.
+
+Chunks with IDs already present in the vector store are skipped.
+
+An internet connection and a valid `GOOGLE_API_KEY` are required.
+
+### 5. Verify the Vector Store
+
+```powershell
+python -c "from src.rag.vector_store import count_vectors; print('Stored vectors:', count_vectors())"
+```
+
+A successful ingestion should produce a non-zero vector count.
+
+During Week 4 release preparation, the existing vector store contained 208 vectors.
+
+**Note:** Re-running the ingestion and chunking scripts overwrites their generated JSONL files. The embedding script skips existing chunk IDs, so changes to chunk content may require rebuilding the index in a separate environment.
+
+## RAG Querying and Evaluation
+
+### 1. Query the Policy Knowledge Service
+
+Start the API:
+
+```powershell
+python -m uvicorn src.main:app --reload
+```
+
+Open the interactive API documentation:
+
+`http://127.0.0.1:8000/docs`
+
+Find the `POST /policy/query` endpoint and select **Try it out**.
+
+Example request:
+
+```json
+{
+  "question": "What triggers immediate specialist escalation?"
+}
+```
+
+The response includes:
+
+- `answer`: Generated answer based on retrieved policy evidence.
+- `supported`: Indicates whether sufficient evidence was found.
+- `citations`: References to the supporting policy documents.
+- `limitations`: Information that could not be established.
+
+### 2. Run Automated Tests
+
+From the project root:
+
+```powershell
+python -m pytest tests/ -v
+```
+
+### 3. Review the RAG Evaluation Baseline
+
+The Week 4 evaluation artifacts are stored in `evaluation/`:
+
+- `golden_set.csv`: Locked evaluation questions and expected references.
+- `baseline_results.csv`: Retrieval and answer evaluation results.
+- `evaluation_report.md`: Baseline metrics and conclusions.
+- `failure_analysis.md`: Identified failures and proposed improvements.
+- `answer_results.json`: Recorded generated answers.
+
+The baseline contains six cases: five supported questions and one unsupported question.
+
+Key baseline results:
+
+| Metric | Result |
+|---|---|
+| Source Hit@5 | 100% |
+| Section Hit@5 | 80% |
+| Support Classification Accuracy | 83.33% |
+| Expected Citation Match | 40% |
+
+The original baseline should be preserved for comparison with future improvements.
+
+### 4. Review Week 4 Test Evidence
+
+Test evidence is available in `evidence/week4/`.
+
+It includes regression tests, ingestion tests, an example grounded answer and a recorded abstention.
+
+The recorded abstention comes from the previous evaluation baseline and is not a new live generation test.
 
 ## Data Access Layer
 

@@ -3,7 +3,7 @@ class ComplaintService:
         self.complaint_repository = complaint_repository
         self.customer_repository = customer_repository
         self.account_repository = account_repository
-
+    
     def create_complaint(self,db, complaint):
         # Verify that the customer exists
         customer = self.customer_repository.get_by_id(db, complaint.customer_id)
