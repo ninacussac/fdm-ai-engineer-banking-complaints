@@ -5,7 +5,8 @@ from docx import Document
 import json
 import hashlib
 from datetime import datetime, timezone
-
+from docx.table import Table
+from docx.text.paragraph import Paragraph
 
 POLICIES_DIR = Path("docs/policies")
 MANIFEST_PATH = POLICIES_DIR / "05_Manifests_and_Guides" / "knowledge_base_manifest.csv"
@@ -104,13 +105,33 @@ def validate_sources(manifest, source_files):
 
 
 def extract_paragraphs(file_path):
-    doc = Document(file_path)
+    document = Document(file_path)
     paragraphs = []
 
-    for paragraph in doc.paragraphs:
-        text = paragraph.text.strip() # supprime les espaces inutiles au début et à la fin du texte
+    for element in document.iter_inner_content():
+
+        if isinstance(element, Paragraph):
+            text = element.text.strip()
+            style = element.style.name
+
+        elif isinstance(element, Table):
+            rows = []
+
+            for row in element.rows:
+                cells = [cell.text.strip() for cell in row.cells]
+                rows.append(" | ".join(cells))
+
+            text = "\n".join(rows)
+            style = "Normal"
+
+        else:
+            continue
+
         if text:
-            paragraphs.append({"text": text, "style": paragraph.style.name})
+            paragraphs.append({
+                "text": text,
+                "style": style
+            })
 
     return paragraphs
 
