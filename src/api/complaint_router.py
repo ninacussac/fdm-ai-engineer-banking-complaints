@@ -48,16 +48,30 @@ def get_complaints(db: Session = Depends(get_db)):
     return service_complaint.get_complaints(db)
 
 
-@router.get("/complaints/{complaint_id}")
-def get_complaint_by_id(complaint_id:str,db: Session = Depends(get_db)):
+
+@router.get("/complaints/{complaint_id}",
+    responses={404: {"description": "Complaint not found"},
+                503: {"description": "Database unavailable"},},)
+def get_complaint_by_id(complaint_id: str,db: Session = Depends(get_db)):
     try:
-        return service_complaint.get_complaint_by_id(db, complaint_id)
-    except ValueError :
+        complaint = service_complaint.get_complaint_with_history(db, complaint_id)
+
+        if complaint is None:
+            raise AppError(
+                code="COMPLAINT_NOT_FOUND",
+                message="Complaint not found",
+                status_code=404,
+            )
+
+        return complaint
+
+    except OperationalError:
         raise AppError(
-            code = "COMPLAINT_NOT_FOUND",
-            message = "Complaint not found",
-            status_code= 404
+            code="DEPENDENCY_UNAVAILABLE",
+            message="Database unavailable",
+            status_code=503,
         )
+
 
 
 @router.patch("/complaints/{complaint_id}/status",

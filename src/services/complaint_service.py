@@ -1,9 +1,13 @@
+from src.repositories.complaint_status_event_repository_sqlalchemy import ComplaintStatusEventRepository
+from src.repositories.complaint_repository_sqlalchemy import ComplaintRepository
+
+
 class ComplaintService:
     def __init__(self, complaint_repository, customer_repository, account_repository):
         self.complaint_repository = complaint_repository
         self.customer_repository = customer_repository
         self.account_repository = account_repository
-
+    
     def create_complaint(self,db, complaint):
         # Verify that the customer exists
         customer = self.customer_repository.get_by_id(db, complaint.customer_id)
@@ -45,3 +49,49 @@ class ComplaintService:
             raise ValueError(f"Customer {customer_id} does not exist")
 
         return self.complaint_repository.get_by_customer_id(db,customer_id)
+
+    def get_complaint_with_history(self, db, complaint_id: str):
+
+        complaint = self.complaint_repository.get_by_id(db, complaint_id)
+
+        if complaint is None:
+            return None
+
+        history = ComplaintStatusEventRepository().get_by_complaint_id(db, complaint_id)
+
+        return {
+            "complaint_id": complaint.complaint_id,
+            "customer_id": complaint.customer_id,
+            "account_id": complaint.account_id,
+            "category": complaint.category.value,
+            "status": complaint.status.value,
+            "priority": (
+                complaint.priority.value
+                if complaint.priority is not None
+                else None
+            ),
+            "received_at": (
+                complaint.received_at.isoformat()
+                if complaint.received_at is not None
+                else None
+            ),
+            "status_history": [
+                {
+                    "history_id": event.history_id,
+                    "old_status": (
+                        event.old_status.value
+                        if event.old_status is not None
+                        else None
+                    ),
+                    "new_status": event.new_status.value,
+                    "changed_by": event.changed_by,
+                    "changed_at": (
+                        event.changed_at.isoformat()
+                        if event.changed_at is not None
+                        else None
+                    ),
+                    "comments": event.comments,
+                }
+                for event in history
+            ],
+        }

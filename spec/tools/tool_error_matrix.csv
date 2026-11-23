@@ -1,0 +1,22 @@
+Tool,Error,Cause,Expected Behavior
+get_customer,NOT_FOUND,Customer does not exist,Return not_found
+get_customer,ACCESS_DENIED,User is not authorized,Deny access
+get_customer,TOOL_TIMEOUT,MCP tool does not respond,Return controlled timeout error
+get_accounts,CUSTOMER_NOT_VERIFIED,Customer is not verified,Do not return accounts
+get_accounts,ACCESS_DENIED,User is not authorized,Deny access
+get_complaint,NOT_FOUND,Complaint does not exist,Return not_found
+get_complaint,SERVICE_UNAVAILABLE,Database is unavailable,Return controlled error
+search_policy,NO_EVIDENCE,No approved policy found,Return empty evidence
+search_policy,SERVICE_UNAVAILABLE,Vector store is unavailable,Return controlled error
+search_policy,MODEL_RATE_LIMIT,Language model rate limit reached,Stop or defer policy-dependent response
+create_case_note,INVALID_INPUT,Note data is invalid,Reject note creation
+create_case_note,ACCESS_DENIED,User is not authorized,Reject note creation
+request_approval,INVALID_REQUEST,Approval request is invalid,Reject request
+request_approval,ACCESS_DENIED,User is not an authorized Analyst,Reject request
+record_approval_decision,ACCESS_DENIED,User is not an authorized human Supervisor,Reject decision
+record_approval_decision,INVALID_STATE,Approval request cannot be decided,Reject decision
+update_complaint_status,INVALID_TRANSITION,Status transition is not allowed,Keep current status
+update_complaint_status,APPROVAL_REJECTED,Required human approval was rejected,Keep current status
+update_complaint_status,ACCESS_DENIED,User is not authorized,Reject transition
+close_complaint,MISSING_APPROVAL,Required approval is missing,Reject closure
+close_complaint,ACCESS_DENIED,User is not an authorized Supervisor,Reject closure

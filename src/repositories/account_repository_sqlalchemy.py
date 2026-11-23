@@ -28,3 +28,7 @@ class AccountRepository:
 
     def get_by_id(self, db: Session, account_id: str):
         return db.get(Account, account_id)
+
+    def get_for_customer(self, db: Session, customer_id: str):
+        return (db.query(Account)
+            .filter(Account.customer_id == customer_id).all())

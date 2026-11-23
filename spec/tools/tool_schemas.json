@@ -1,0 +1,49 @@
+{
+  "tools": [
+    {
+      "name": "get_customer",
+      "inputs": {"customer_id": "string"},
+      "outputs": {"customer": "object or null"}
+    },
+    {
+      "name": "get_accounts",
+      "inputs": {"customer_id": "string"},
+      "outputs": {"accounts": "array"}
+    },
+    {
+      "name": "get_complaint",
+      "inputs": {"complaint_id": "string"},
+      "outputs": {"complaint": "object or null"}
+    },
+    {
+      "name": "search_policy",
+      "inputs": {"query": "string", "filters": "object", "top_k": "integer"},
+      "outputs": {"evidence": "array"}
+    },
+    {
+      "name": "create_case_note",
+      "inputs": {"complaint_id": "string", "note": "string", "evidence_refs": "array"},
+      "outputs": {"note_id": "string", "audit_event": "object"}
+    },
+    {
+      "name": "request_approval",
+      "inputs": {"complaint_id": "string", "action": "string", "parameters": "object", "evidence_refs": "array"},
+      "outputs": {"approval_id": "string", "status": "string"}
+    },
+    {
+      "name": "record_approval_decision",
+      "inputs": {"approval_id": "string", "decision": "string", "reason": "string"},
+      "outputs": {"decision": "string", "audit_event": "object"}
+    },
+    {
+      "name": "update_complaint_status",
+      "inputs": {"complaint_id": "string", "target_status": "string", "reason": "string"},
+      "outputs": {"new_status": "string", "audit_event": "object"}
+    },
+    {
+      "name": "close_complaint",
+      "inputs": {"complaint_id": "string", "resolution": "string", "communication_date": "string", "evidence_refs": "array"},
+      "outputs": {"closed_case": "object", "audit_event": "object"}
+    }
+  ]
+}
