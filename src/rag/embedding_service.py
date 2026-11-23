@@ -70,7 +70,21 @@ def embed_batch(chunks):
 
     return embeddings
 
+def merge_information_chunk(batch,embeddings, results):
+    for chunk, embedding in zip(batch, embeddings):
+        results.append({
+            **chunk, # donne toutes les infos contenues dans chunk
+            "embedding": embedding
+        })
 
+def check_sleep(provider,i,batch_size,remaining_chunks,error):
+    if (provider == "gemini" and i + batch_size < len(remaining_chunks)):
+        time.sleep(35)
+    if provider=="gemini" and "429" in str(error):
+        time.sleep(35)
+    else:
+        time.sleep(2)
+    
 
 def generate_embeddings(chunks, batch_size=32):
     # Skip chunks already stored in ChromaDB
@@ -91,12 +105,7 @@ def generate_embeddings(chunks, batch_size=32):
                 embeddings = embed_batch(batch)
 
                 results = []
-
-                for chunk, embedding in zip(batch, embeddings):
-                    results.append({
-                        **chunk, # donne toutes les infos contenues dans chunk
-                        "embedding": embedding
-                    })
+                merge_information_chunk(batch,embeddings, results)
 
                 # Save this batch immediately
                 store_embeddings(results)
@@ -110,14 +119,11 @@ def generate_embeddings(chunks, batch_size=32):
                 if attempt == 2:
                     raise
                 # limitation gemini 100 query/minute
-                if provider=="gemini" and "429" in str(error):
-                    time.sleep(35)
-                else:
-                    time.sleep(2)
+                check_sleep(provider,i,batch_size,remaining_chunks,error)
+                
 
         # Reduce the risk of reaching the API rate limit
-        if (provider == "gemini" and i + batch_size < len(remaining_chunks)):
-            time.sleep(35)
+        check_sleep(provider,i,batch_size,remaining_chunks,error)
 
     print("Total vectors stored:", count_vectors())
 

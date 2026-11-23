@@ -9,7 +9,7 @@ def retrieve(query, top_k=3, document_type=None, effective_version=None, access_
     if top_k < 1:
         raise ValueError("top_k must be positive")
 
-    filters = []
+    filters = [{"status": "Approved"}]
 
     if document_type:
         filters.append({"document_type": document_type})

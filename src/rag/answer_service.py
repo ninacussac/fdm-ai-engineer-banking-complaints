@@ -155,7 +155,7 @@ def answer_question(question, document_type=None, effective_version=None, access
             result["citations"], chunks
         )
 
-    except ValueError as error:
+    except ValueError :
         return {
             "answer": "I could not produce a fully verified answer.",
             "supported": False,

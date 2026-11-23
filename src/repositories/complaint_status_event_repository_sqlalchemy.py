@@ -24,3 +24,14 @@ class ComplaintStatusEventRepository:
 
     def get_all(self, db: Session):
         return db.query(ComplaintStatusEvent).all()
+
+    def get_by_complaint_id(self, db, complaint_id: str):
+        return (
+            db.query(ComplaintStatusEvent)
+            .filter(ComplaintStatusEvent.complaint_id == complaint_id)
+            .order_by(
+                ComplaintStatusEvent.changed_at,
+                ComplaintStatusEvent.history_id
+            )
+            .all()
+        )

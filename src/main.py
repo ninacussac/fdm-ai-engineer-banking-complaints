@@ -10,9 +10,9 @@ from src.api.account_router import router as account_router
 from src.api.policy_router import router as policy_router
 from src.api.complaint_status_event_router import router as complaint_status_event_router
 from src.api.routers.health import router as health_router
+from src.api.case_note_router import router as case_note_router
 from src.data.connection import engine
 from src.data.base import Base
-from src.models import models
 from src.api.error_handlers import AppError, app_error_handler, validation_error_handler
 from fastapi.exceptions import RequestValidationError
 from src.logging_config import log_request
@@ -74,6 +74,7 @@ app.include_router(account_router)
 app.include_router(complaint_status_event_router)
 app.include_router(health_router)
 app.include_router(policy_router)
+app.include_router(case_note_router)
 
 # create tables with metadada, Base.Metadata
 

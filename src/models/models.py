@@ -4,7 +4,7 @@ from datetime import datetime
 from decimal import Decimal
 from enum import Enum
 
-from sqlalchemy import Numeric, String,ForeignKey,Integer, Column, DateTime, Date, Enum as SAEnum, select
+from sqlalchemy import Numeric, String,ForeignKey,Integer, Column, DateTime, Text, JSON, Date, Enum as SAEnum, select
 from sqlalchemy.orm import Session, validates
 from src.data.base import Base
 
@@ -188,3 +188,25 @@ class ComplaintStatusEvent(Base):
             raise ValueError(f"Invalid {key}: {value}")
 
         return value
+
+
+class CaseNote(Base):
+    __tablename__ = "case_note"
+
+    note_id = Column(Integer, primary_key=True, autoincrement=True)
+    complaint_id = Column(String,ForeignKey("complaint.complaint_id"),nullable=False)
+    note = Column(Text, nullable=False)
+    evidence_refs = Column(JSON, nullable=False)
+    created_by = Column(String, nullable=False)
+    created_at = Column(DateTime,default=datetime.now,nullable=False)
+
+
+class AuditEvent(Base):
+    __tablename__ = "audit_event"
+
+    audit_id = Column(Integer, primary_key=True, autoincrement=True)
+    complaint_id = Column(String,ForeignKey("complaint.complaint_id"),nullable=False)
+    action = Column(String, nullable=False)
+    actor_id = Column(String, nullable=False)
+    details = Column(JSON, nullable=False)
+    created_at = Column(DateTime,default=datetime.now,nullable=False)
